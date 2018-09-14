@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  HttpException
+  Evaluate Reverse Polish Notation - HttpException
   
   </title>
   
@@ -91,111 +91,106 @@
        
 
  <script type="text/javascript">
-	$(function(){
-		$('#menu_item_index').addClass('is_active');
-	});
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
 </script>
 <div class="row">
-	<div class="large-8 medium-8 columns">
-		<div class="markdown-body home-categories">
-		
-			<div class="article">
-                <a class="clearlink" href="task-scheduler.html">
-                
-                  <h1>Task Scheduler</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<blockquote>
-<p><code>leetcode 621</code> <code>heap</code> <code>priority queue</code></p>
-</blockquote>
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>Evaluate Reverse Polish Notation</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2018/9/12</span>
 
-<p>Given a letter (A to Z) array representing tasks. Each task could be done in one interval. For each interval, CPU could finish one task or just be idle.</p>
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='Algorithm.html'>Algorithm</a></span>
+           
+         
+          <span class="comments">
+            
 
-<p>However, there is a non-negative cooling interval <strong>n</strong> that means between <strong>two same tasks</strong>, there must be at least n intervals that CPU are doing different tasks or just be idle.</p>
+            
+          </span>
 
-<p>You need to return the <strong>least</strong> number of intervals the CPU will take to finish all the given tasks.<br/>
+        </div>
+      </div><!-- article -->
 
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="task-scheduler.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2018/9/12</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Algorithm.html'>Algorithm</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="evaluate-reverse-polish-notation.html">
-                
-                  <h1>Evaluate Reverse Polish Notation</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<blockquote>
+      <div class="article-content">
+      <blockquote>
 <p><code>leetcode 150</code> <code>stack</code></p>
 </blockquote>
 
 <p>Evaluate the value of an arithmetic expression in <strong><em>Reverse Polish Notation</em></strong>.</p>
 
 <p>Valid operators are <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>. Each operand may be an integer or another expression.<br/>
+<span id="more"></span><!-- more --><br/>
+<strong>Examples</strong></p>
 
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="evaluate-reverse-polish-notation.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2018/9/12</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Algorithm.html'>Algorithm</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
+<pre><code class="language-python">[&quot;2&quot;, &quot;1&quot;, &quot;+&quot;, &quot;3&quot;, &quot;*&quot;] -&gt; ((2 + 1) * 3) -&gt; 9
+[&quot;4&quot;, &quot;13&quot;, &quot;5&quot;, &quot;/&quot;, &quot;+&quot;] -&gt; (4 + (13 / 5)) -&gt; 6
 
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-              
+[&quot;10&quot;, &quot;6&quot;, &quot;9&quot;, &quot;3&quot;, &quot;+&quot;, &quot;-11&quot;, &quot;*&quot;, &quot;/&quot;, &quot;*&quot;, &quot;17&quot;, &quot;+&quot;, &quot;5&quot;, &quot;+&quot;]
+-&gt; ((10 * (6 / ((9 + 3) * (-11)))) + 17) + 5 -&gt; 22
+</code></pre>
+
+<h2 id="toc_0">Solution</h2>
+
+<p>Use stack to store ints, pop and eval two ints when get an operator.</p>
+
+<p>Time O(n), Space O(n).</p>
+
+<pre><code class="language-python">def evalRPN(tokens):
+    stack = []
+    for t in tokens:
+        if t not in &#39;+-*/&#39;:
+            stack.append(int(t))
+        else:
+            r, l = stack.pop(), stack.pop()
+            if &#39;+&#39; == t: stack.append(l+r)
+            elif &#39;-&#39; == t: stack.append(l-r)
+            elif &#39;*&#39; == t: stack.append(l*r)
+            else: stack.append(int(float(l)/r))
+    return stack.pop()
+</code></pre>
 
 
-			<div class="row">
-			  <div class="large-6 columns">
-			  <p class="text-left" style="padding-top:25px;">
-			   
-			  </p>
-			  </div>
-			  <div class="large-6 columns">
-			<p class="text-right" style="padding-top:25px;">
-			
-			</p>
-			  </div>
-			</div>
-		</div>
-	</div><!-- large 8 -->
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="task-scheduler.html" 
+          title="Previous Post: Task Scheduler">&laquo; Task Scheduler</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
 
  <div class="large-4 medium-4 columns">
   <div class="hide-for-small">

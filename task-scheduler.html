@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  HttpException
+  Task Scheduler - HttpException
   
   </title>
   
@@ -91,23 +91,36 @@
        
 
  <script type="text/javascript">
-	$(function(){
-		$('#menu_item_index').addClass('is_active');
-	});
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
 </script>
 <div class="row">
-	<div class="large-8 medium-8 columns">
-		<div class="markdown-body home-categories">
-		
-			<div class="article">
-                <a class="clearlink" href="task-scheduler.html">
-                
-                  <h1>Task Scheduler</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<blockquote>
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>Task Scheduler</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2018/9/12</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='Algorithm.html'>Algorithm</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <blockquote>
 <p><code>leetcode 621</code> <code>heap</code> <code>priority queue</code></p>
 </blockquote>
 
@@ -116,86 +129,72 @@
 <p>However, there is a non-negative cooling interval <strong>n</strong> that means between <strong>two same tasks</strong>, there must be at least n intervals that CPU are doing different tasks or just be idle.</p>
 
 <p>You need to return the <strong>least</strong> number of intervals the CPU will take to finish all the given tasks.<br/>
+<span id="more"></span><!-- more --><br/>
+<strong>Example</strong></p>
 
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="task-scheduler.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2018/9/12</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Algorithm.html'>Algorithm</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
+<p><code>tasks = [&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;B&quot;,&quot;B&quot;,&quot;B&quot;], n = 2</code> -&gt; <code>8</code></p>
 
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="evaluate-reverse-polish-notation.html">
-                
-                  <h1>Evaluate Reverse Polish Notation</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<blockquote>
-<p><code>leetcode 150</code> <code>stack</code></p>
-</blockquote>
+<p><code>A</code>-<code>B</code>-<code>#</code>-<code>A</code>-<code>B</code>-<code>#</code>-<code>A</code>-<code>B</code></p>
 
-<p>Evaluate the value of an arithmetic expression in <strong><em>Reverse Polish Notation</em></strong>.</p>
+<h2 id="toc_0">Solution</h2>
 
-<p>Valid operators are <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>. Each operand may be an integer or another expression.<br/>
+<p>Use a max-heap to place most frequent elements in the first priority.</p>
 
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="evaluate-reverse-polish-notation.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2018/9/12</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Algorithm.html'>Algorithm</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-              
+<pre><code class="language-python">def leastInterval(tasks, n):
+    n += 1
+    ret = 0
+    d = collections.Counter(tasks)
+    heap = [-c for c in d.values()] # max-heap build trick
+    heapq.heapify(heap)
+    while heap:
+        temp = []
+        count = 0
+        for _ in range(n):
+            if heap:
+                c = heapq.heappop(heap)
+                count += 1
+                if c &lt; -1:
+                    temp.append(c + 1)
+        for item in temp:
+            heapq.heappush(heap, item)
+        ret += n if heap else count
+    return ret
+</code></pre>
 
 
-			<div class="row">
-			  <div class="large-6 columns">
-			  <p class="text-left" style="padding-top:25px;">
-			   
-			  </p>
-			  </div>
-			  <div class="large-6 columns">
-			<p class="text-right" style="padding-top:25px;">
-			
-			</p>
-			  </div>
-			</div>
-		</div>
-	</div><!-- large 8 -->
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="evaluate-reverse-polish-notation.html" 
+          title="Next Post: Evaluate Reverse Polish Notation">Evaluate Reverse Polish Notation &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
 
  <div class="large-4 medium-4 columns">
   <div class="hide-for-small">

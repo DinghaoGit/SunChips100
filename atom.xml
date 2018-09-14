@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[HttpException]]></title>
+  <link href="httpexception.com/atom.xml" rel="self"/>
+  <link href="httpexception.com/"/>
+  <updated>2018-09-14T00:48:10-07:00</updated>
+  <id>httpexception.com/</id>
+  <author>
+    <name><![CDATA[]]></name>
+    
+  </author>
+  <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[Task Scheduler]]></title>
+    <link href="httpexception.com/task-scheduler.html"/>
+    <updated>2018-09-12T22:47:21-07:00</updated>
+    <id>httpexception.com/task-scheduler.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p><code>leetcode 621</code> <code>heap</code> <code>priority queue</code></p>
+</blockquote>
+
+<p>Given a letter (A to Z) array representing tasks. Each task could be done in one interval. For each interval, CPU could finish one task or just be idle.</p>
+
+<p>However, there is a non-negative cooling interval <strong>n</strong> that means between <strong>two same tasks</strong>, there must be at least n intervals that CPU are doing different tasks or just be idle.</p>
+
+<p>You need to return the <strong>least</strong> number of intervals the CPU will take to finish all the given tasks.<br/>
+<span id="more"></span><!-- more --><br/>
+<strong>Example</strong></p>
+
+<p><code>tasks = [&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;B&quot;,&quot;B&quot;,&quot;B&quot;], n = 2</code> -&gt; <code>8</code></p>
+
+<p><code>A</code>-<code>B</code>-<code>#</code>-<code>A</code>-<code>B</code>-<code>#</code>-<code>A</code>-<code>B</code></p>
+
+<h2 id="toc_0">Solution</h2>
+
+<p>Use a max-heap to place most frequent elements in the first priority.</p>
+
+<pre><code class="language-python">def leastInterval(tasks, n):
+    n += 1
+    ret = 0
+    d = collections.Counter(tasks)
+    heap = [-c for c in d.values()] # max-heap build trick
+    heapq.heapify(heap)
+    while heap:
+        temp = []
+        count = 0
+        for _ in range(n):
+            if heap:
+                c = heapq.heappop(heap)
+                count += 1
+                if c &lt; -1:
+                    temp.append(c + 1)
+        for item in temp:
+            heapq.heappush(heap, item)
+        ret += n if heap else count
+    return ret
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Evaluate Reverse Polish Notation]]></title>
+    <link href="httpexception.com/evaluate-reverse-polish-notation.html"/>
+    <updated>2018-09-12T21:18:52-07:00</updated>
+    <id>httpexception.com/evaluate-reverse-polish-notation.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p><code>leetcode 150</code> <code>stack</code></p>
+</blockquote>
+
+<p>Evaluate the value of an arithmetic expression in <strong><em>Reverse Polish Notation</em></strong>.</p>
+
+<p>Valid operators are <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>. Each operand may be an integer or another expression.<br/>
+<span id="more"></span><!-- more --><br/>
+<strong>Examples</strong></p>
+
+<pre><code class="language-python">[&quot;2&quot;, &quot;1&quot;, &quot;+&quot;, &quot;3&quot;, &quot;*&quot;] -&gt; ((2 + 1) * 3) -&gt; 9
+[&quot;4&quot;, &quot;13&quot;, &quot;5&quot;, &quot;/&quot;, &quot;+&quot;] -&gt; (4 + (13 / 5)) -&gt; 6
+
+[&quot;10&quot;, &quot;6&quot;, &quot;9&quot;, &quot;3&quot;, &quot;+&quot;, &quot;-11&quot;, &quot;*&quot;, &quot;/&quot;, &quot;*&quot;, &quot;17&quot;, &quot;+&quot;, &quot;5&quot;, &quot;+&quot;]
+-&gt; ((10 * (6 / ((9 + 3) * (-11)))) + 17) + 5 -&gt; 22
+</code></pre>
+
+<h2 id="toc_0">Solution</h2>
+
+<p>Use stack to store ints, pop and eval two ints when get an operator.</p>
+
+<p>Time O(n), Space O(n).</p>
+
+<pre><code class="language-python">def evalRPN(tokens):
+    stack = []
+    for t in tokens:
+        if t not in &#39;+-*/&#39;:
+            stack.append(int(t))
+        else:
+            r, l = stack.pop(), stack.pop()
+            if &#39;+&#39; == t: stack.append(l+r)
+            elif &#39;-&#39; == t: stack.append(l-r)
+            elif &#39;*&#39; == t: stack.append(l*r)
+            else: stack.append(int(float(l)/r))
+    return stack.pop()
+</code></pre>
+
+]]></content>
+  </entry>
+  
+</feed>
