@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[HttpException]]></title>
-  <link href="httpexception.com/atom.xml" rel="self"/>
-  <link href="httpexception.com/"/>
-  <updated>2018-09-14T00:49:45-07:00</updated>
-  <id>httpexception.com/</id>
+  <link href="https://www.httpexception.com/atom.xml" rel="self"/>
+  <link href="https://www.httpexception.com/"/>
+  <updated>2018-09-14T19:47:59-07:00</updated>
+  <id>https://www.httpexception.com/</id>
   <author>
     <name><![CDATA[]]></name>
     
@@ -13,10 +13,103 @@
   <generator uri="http://www.mweb.im/">MWeb</generator>
   
   <entry>
+    <title type="html"><![CDATA[Smart Pointers in Modern C++]]></title>
+    <link href="https://www.httpexception.com/smart-pointers-in-modern-cpp.html"/>
+    <updated>2018-09-14T01:25:04-07:00</updated>
+    <id>https://www.httpexception.com/smart-pointers-in-modern-cpp.html</id>
+    <content type="html"><![CDATA[
+<p><code>C++11</code>: <del>auto_ptr</del>, <code>unique_ptr</code>, <code>shared_ptr</code>, <code>weak_ptr</code><br/>
+<span id="more"></span><!-- more --></p>
+
+<h2 id="toc_0"><em>unique_ptr</em></h2>
+
+<p>Use <em>unique_ptr</em> when you want to have <strong><em>single ownership</em></strong> (exclusive) of resource. When that <em>unique_ptr</em> is destructed, the resource is automatically released.</p>
+
+<h3 id="toc_1">custom deleter</h3>
+
+<pre><code class="language-cpp">auto deleter = [](A* a){ ... delete a;} //lambda
+unique_ptr&lt;A, decltype(deleter)&gt; A(new A, deleter)
+</code></pre>
+
+<h3 id="toc_2">move semantics</h3>
+
+<p>Unlike <del>auto_ptr</del>, copy assignment is not allowed for <em>unique_ptr</em>. Ownership is truly unique and safe. <em>unique_ptr</em> can be moved using the new move semantics:</p>
+
+<pre><code class="language-cpp">unique_ptr&lt;A&gt; ptr1 (new A);
+unique_ptr&lt;A&gt; ptr2 = std::move(ptr1);
+</code></pre>
+
+<h2 id="toc_3"><em>shared_ptr</em></h2>
+
+<p>A <em>shared_ptr</em> is a container for a raw pointer. It is a <strong><em>reference counting ownership model</em></strong> i.e. it maintains the reference count of its contained pointer in cooperation with all copies of the <em>shared_ptr</em>. So, the counter is incremented each time a new <em>shared_ptr</em> points to the resource and decremented when the <em>shared_ptr</em> is destructed. An object will not be destroyed until all copies of shared_ptr have been destructed. So, we should use shared_ptr when we want to assign one raw pointer to multiple owners.</p>
+
+<h3 id="toc_4"><em>enable_shared_from_this</em></h3>
+
+<p>It enables you to get a valid <em>shared_ptr</em> instance to this, when all you have is this. <strong>Without</strong> it, you would have <strong>no way</strong> of getting a <em>shared_ptr</em> to this, unless you already had one as a member.</p>
+
+<pre><code class="language-cpp">class A: public enable_shared_from_this&lt;A&gt;
+{
+public:
+    shared_ptr&lt;A&gt; getMe() { return shared_from_this(); }
+}
+</code></pre>
+
+<p>The method <em>getMe()</em> returns a valid <em>shared_ptr</em>. Note that you cannot simply do <del>shared_ptr&lt;A&gt; getMe() { return shared_ptr&lt;A&gt;(this); }</del>. Because the returned <em>shared_ptr</em> will have a different reference counting control, which will end up holding a dangling reference when the object is deleted.</p>
+
+<h2 id="toc_5"><em>weak_ptr</em></h2>
+
+<p>A <em>weak_ptr</em> is created as a copy of <em>shared_ptr</em>. It provides <strong>access</strong> to an object that is owned by one or more <em>shared_ptr</em>, but <strong>does not</strong> participate in reference counting. The existence or destruction of weak_ptr has no effect on the shared_ptr or its other copies. It is required in some cases to break <strong><em>circular references</em></strong> between <em>shared_ptr</em> instances.</p>
+
+<h3 id="toc_6">circular dependency of <em>shared_ptr</em></h3>
+
+<p>Consider a scenario where we have two objects A and B. <code>A</code> has <code>shared_ptr&lt;B&gt; b</code> and <code>B</code> has <code>shared_ptr&lt;A&gt; a</code>. Hence, <em>use_count</em> will <strong>never reach zero</strong> and they will never get deleted.</p>
+
+<h3 id="toc_7">basic uses of <em>weak_ptr</em></h3>
+
+<pre><code class="language-cpp">// created as a copy of shared_ptr
+std::weak_ptr&lt;Widget&gt; w_ptr(s_ptr);
+
+// check if w_ptr is valid
+if (!w_ptr.expired()) {
+    // do something
+}
+
+// lock() creates a new shared_ptr that shares
+// ownership of the managed object.
+// If there is no managed object,
+// the returned shared_ptr is also empty.
+// i.e. expired() ? shared_ptr&lt;T&gt;() : shared_ptr&lt;T&gt;(*this)
+if (auto s_ptr_2 = w_ptr.lock()) {
+    // do something
+} else {
+    // do something
+}
+</code></pre>
+
+<h2 id="toc_8"><em>make_unique</em> and <em>make_shared</em></h2>
+
+<h3 id="toc_9">potential memory leak</h3>
+
+<blockquote>
+<p><del>processWidget(shared_ptr&lt;Widget&gt;(new Widget), getSomething());</del></p>
+</blockquote>
+
+<p>If compiler firstly calls <em>new Widget</em>, then <em>getSomething()</em> and <em>getSomething()</em> throws an <strong>exception</strong>, <em>Widget</em> is leaked.</p>
+
+<blockquote>
+<p>processWidget(make_shared&lt;Widget&gt;(), getSomething());</p>
+</blockquote>
+
+<p>The correct way is as above.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Task Scheduler]]></title>
-    <link href="httpexception.com/task-scheduler.html"/>
+    <link href="https://www.httpexception.com/task-scheduler.html"/>
     <updated>2018-09-12T22:47:21-07:00</updated>
-    <id>httpexception.com/task-scheduler.html</id>
+    <id>https://www.httpexception.com/task-scheduler.html</id>
     <content type="html"><![CDATA[
 <blockquote>
 <p><code>leetcode 621</code> <code>heap</code> <code>priority queue</code></p>
@@ -64,9 +157,9 @@
   
   <entry>
     <title type="html"><![CDATA[Evaluate Reverse Polish Notation]]></title>
-    <link href="httpexception.com/evaluate-reverse-polish-notation.html"/>
+    <link href="https://www.httpexception.com/evaluate-reverse-polish-notation.html"/>
     <updated>2018-09-12T21:18:52-07:00</updated>
-    <id>httpexception.com/evaluate-reverse-polish-notation.html</id>
+    <id>https://www.httpexception.com/evaluate-reverse-polish-notation.html</id>
     <content type="html"><![CDATA[
 <blockquote>
 <p><code>leetcode 150</code> <code>stack</code></p>
