@@ -114,6 +114,8 @@
          
           <span class="comments">
             
+              <a href="https://www.httpexception.com/smart-pointers-in-modern-cpp.html#disqus_thread">comments</a>
+            
 
             
           </span>
@@ -149,11 +151,11 @@ unique_ptr&lt;A&gt; ptr2 = std::move(ptr1);
 
 <h2 id="toc_3"><em>shared_ptr</em></h2>
 
-<p>A <em>shared_ptr</em> is a container for a raw pointer. It is a <strong><em>reference counting ownership model</em></strong> i.e. it maintains the reference count of its contained pointer in cooperation with all copies of the <em>shared_ptr</em>. So, the counter is incremented each time a new <em>shared_ptr</em> points to the resource and decremented when the <em>shared_ptr</em> is destructed. An object will not be destroyed until all copies of shared_ptr have been destructed. So, we should use shared_ptr when we want to assign one raw pointer to multiple owners.</p>
+<p>A <em>shared_ptr</em> is a container for a raw pointer. It is a <strong><em>reference counting ownership model</em></strong> i.e. it maintains the reference count of its contained pointer in cooperation with all copies of the <em>shared_ptr</em>. So, the counter is incremented each time a new <em>shared_ptr</em> points to the resource and decremented when the <em>shared_ptr</em> is destructed. An object will not be destroyed until all copies of <em>shared_ptr</em> have been destructed. So, we should use <em>shared_ptr</em> when we want to assign one raw pointer to multiple owners.</p>
 
 <h3 id="toc_4"><em>enable_shared_from_this</em></h3>
 
-<p>It enables you to get a valid <em>shared_ptr</em> instance to this, when all you have is this. <strong>Without</strong> it, you would have <strong>no way</strong> of getting a <em>shared_ptr</em> to this, unless you already had one as a member.</p>
+<p>It enables you to get a valid <em>shared_ptr</em> instance to <em>this</em>, when all you have is <em>this</em>. <strong>Without</strong> it, you would have <strong>no way</strong> of getting a <em>shared_ptr</em> to this, unless you already had one as a member.</p>
 
 <pre><code class="language-cpp">class A: public enable_shared_from_this&lt;A&gt;
 {
@@ -166,7 +168,7 @@ public:
 
 <h2 id="toc_5"><em>weak_ptr</em></h2>
 
-<p>A <em>weak_ptr</em> is created as a copy of <em>shared_ptr</em>. It provides <strong>access</strong> to an object that is owned by one or more <em>shared_ptr</em>, but <strong>does not</strong> participate in reference counting. The existence or destruction of weak_ptr has no effect on the shared_ptr or its other copies. It is required in some cases to break <strong><em>circular references</em></strong> between <em>shared_ptr</em> instances.</p>
+<p>A <em>weak_ptr</em> is created as a copy of <em>shared_ptr</em>. It provides <strong>access</strong> to an object that is owned by one or more <em>shared_ptr</em>, but <strong>does not</strong> participate in reference counting. The existence or destruction of <em>weak_ptr</em> has no effect on the <em>shared_ptr</em> or its other copies. It is required in some cases to break <strong><em>circular references</em></strong> between <em>shared_ptr</em> instances.</p>
 
 <h3 id="toc_6">circular dependency of <em>shared_ptr</em></h3>
 
@@ -232,8 +234,29 @@ if (auto s_ptr_2 = w_ptr.lock()) {
       </div>
       <div class="comments-wrap">
         <div class="share-comments">
-          
+          <div id="disqus_thread"></div>
+<script>
 
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://httpexception.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+          
+            <div id="disqus_thread"></div>
           
 
           
@@ -335,6 +358,27 @@ if (auto s_ptr_2 = w_ptr.lock()) {
       </div>
     </div>
 
+
+<script type="text/javascript">
+    var disqus_shortname = 'SunChips100'; 
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+<script type="text/javascript">
+var disqus_shortname = 'SunChips100'; 
+
+(function () {
+var s = document.createElement('script'); s.async = true;
+s.type = 'text/javascript';
+s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
   
     
 
