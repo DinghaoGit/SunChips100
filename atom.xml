@@ -4,7 +4,7 @@
   <title><![CDATA[HttpException]]></title>
   <link href="https://www.httpexception.com/atom.xml" rel="self"/>
   <link href="https://www.httpexception.com/"/>
-  <updated>2018-09-14T19:47:59-07:00</updated>
+  <updated>2018-09-14T22:56:31-07:00</updated>
   <id>https://www.httpexception.com/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -18,7 +18,11 @@
     <updated>2018-09-14T01:25:04-07:00</updated>
     <id>https://www.httpexception.com/smart-pointers-in-modern-cpp.html</id>
     <content type="html"><![CDATA[
-<p><code>C++11</code>: <del>auto_ptr</del>, <code>unique_ptr</code>, <code>shared_ptr</code>, <code>weak_ptr</code><br/>
+<blockquote>
+<p><code>C++11</code>: <del>auto_ptr</del>, <code>unique_ptr</code>, <code>shared_ptr</code>, <code>weak_ptr</code></p>
+</blockquote>
+
+<p>Smart pointers can do virtually everything raw pointers can, but with far fewer opportunities for error.<br/>
 <span id="more"></span><!-- more --></p>
 
 <h2 id="toc_0"><em>unique_ptr</em></h2>
@@ -94,7 +98,7 @@ if (auto s_ptr_2 = w_ptr.lock()) {
 <p><del>processWidget(shared_ptr&lt;Widget&gt;(new Widget), getSomething());</del></p>
 </blockquote>
 
-<p>If compiler firstly calls <em>new Widget</em>, then <em>getSomething()</em> and <em>getSomething()</em> throws an <strong>exception</strong>, <em>Widget</em> is leaked.</p>
+<p>It depends on compiler, if it firstly calls <em>new Widget</em>, then <em>getSomething()</em> and <em>getSomething()</em> throws an <strong>exception</strong>, <em>Widget</em> is leaked.</p>
 
 <blockquote>
 <p>processWidget(make_shared&lt;Widget&gt;(), getSomething());</p>
