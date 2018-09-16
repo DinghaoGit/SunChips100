@@ -155,7 +155,7 @@ unique_ptr&lt;A&gt; ptr2 = std::move(ptr1);
 
 <h3 id="toc_4"><em>enable_shared_from_this</em></h3>
 
-<p>It enables you to get a valid <em>shared_ptr</em> instance to <em>this</em>, when all you have is <em>this</em>. <strong>Without</strong> it, you would have <strong>no way</strong> of getting a <em>shared_ptr</em> to this, unless you already had one as a member.</p>
+<p>It enables you to get a valid <em>shared_ptr</em> instance to <em>this</em>. <strong>Without</strong> it, you would have <strong>no way</strong> of getting a <em>shared_ptr</em> to <em>this</em>, unless you already had one <em>shared_ptr</em> as a member.</p>
 
 <pre><code class="language-cpp">class A: public enable_shared_from_this&lt;A&gt;
 {
@@ -221,6 +221,9 @@ if (auto s_ptr_2 = w_ptr.lock()) {
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
+          <a href="move-semantics-in-modern-cpp.html" 
+          title="Previous Post: Move Semantics in Modern C++">&laquo; Move Semantics in Modern C++</a>
+      
         </p>
         </div>
         <div class="large-6 columns">
@@ -278,7 +281,7 @@ s.setAttribute('data-timestamp', +new Date());
 
 
 
-  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+  <!-- <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a> -->
                 
               	 </div>
           	</div>
@@ -310,6 +313,12 @@ s.setAttribute('data-timestamp', +new Date());
                 <div class="side-content">
                 <ul class="posts-list">
 	      
+		      
+			      <li class="post">
+			        <a href="move-semantics-in-modern-cpp.html">Move Semantics in Modern C++</a>
+			      </li>
+		     
+		  
 		      
 			      <li class="post">
 			        <a href="smart-pointers-in-modern-cpp.html">Smart Pointers in Modern C++</a>
