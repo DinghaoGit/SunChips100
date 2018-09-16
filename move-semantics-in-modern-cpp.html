@@ -124,7 +124,11 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <p><em>Move semantics</em> allows an object, under certain conditions, to take ownership of <strong>other</strong> object&#39;s <strong>external</strong> (heap) resources. This helps turning expensive copies into cheap moves.<br/>
+      <blockquote>
+<p><code>C++11</code>: <code>rvalue reference</code>, <code>std::move</code>, <code>std::forward</code></p>
+</blockquote>
+
+<p><em>Move semantics</em> allows an object, under certain conditions, to take ownership of <strong>other</strong> object&#39;s <strong>external</strong> (heap) resources. This helps turning expensive copies into cheap moves.<br/>
 <span id="more"></span><!-- more --><br/>
 Move semantics will <strong>not</strong> offer any advantages if object doesn&#39;t own external resources.</p>
 
@@ -270,7 +274,7 @@ T&amp;&amp;  &amp;&amp; -&gt; T&amp;&amp;
 <pre><code class="language-cpp">void overloaded(const int&amp; x) { std::cout &lt;&lt; &quot;[lvalue]&quot;; }
 void overloaded(int&amp;&amp; x) { std::cout &lt;&lt; &quot;[rvalue]&quot;; }
 
-template &lt;class T&gt; void foo (T&amp;&amp; x) {
+template &lt;class T&gt; void foo(T&amp;&amp; x) {
   overloaded(x);                   // NOTE !!! always an lvalue
   overloaded(std::forward&lt;T&gt;(x));  // rvalue if argument is rvalue
 }
@@ -288,6 +292,9 @@ foo(0); // calling foo with rvalue: [lvalue][rvalue]
       <div class="row">
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="kth-largest-element-in-an-array.html" 
+          title="Previous Post: Kth Largest Element in an Array">&laquo; Kth Largest Element in an Array</a>
       
         </p>
         </div>
@@ -378,6 +385,12 @@ s.setAttribute('data-timestamp', +new Date());
                 <div class="side-content">
                 <ul class="posts-list">
 	      
+		      
+			      <li class="post">
+			        <a href="kth-largest-element-in-an-array.html">Kth Largest Element in an Array</a>
+			      </li>
+		     
+		  
 		      
 			      <li class="post">
 			        <a href="move-semantics-in-modern-cpp.html">Move Semantics in Modern C++</a>

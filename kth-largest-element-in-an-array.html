@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Algorithm - HttpException
+  Kth Largest Element in an Array - HttpException
   
   </title>
   
@@ -93,154 +93,165 @@
        
 
  <script type="text/javascript">
-	$(function(){
-		$('#menu_item_index').addClass('is_active');
-	});
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
 </script>
 <div class="row">
-	<div class="large-8 medium-8 columns">
-		<div class="markdown-body home-categories">
-		
-			<div class="article">
-                <a class="clearlink" href="kth-largest-element-in-an-array.html">
-                
-                  <h1>Kth Largest Element in an Array</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<blockquote>
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>Kth Largest Element in an Array</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2018/9/16</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='Algorithm.html'>Algorithm</a></span>
+           
+         
+          <span class="comments">
+            
+              <a href="https://www.httpexception.com/kth-largest-element-in-an-array.html#disqus_thread">comments</a>
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <blockquote>
 <p><code>3-way partition</code> <code>quickselect</code> <code>quicksort</code> <code>kth smallest</code></p>
 </blockquote>
 
 <p>Find the <strong>kth largest</strong> element in an <strong>unsorted</strong> array.<br/>
+<span id="more"></span><!-- more --><br/>
+<strong>Examples</strong></p>
 
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="kth-largest-element-in-an-array.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2018/9/16</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Algorithm.html'>Algorithm</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-                        <a href="https://www.httpexception.com/kth-largest-element-in-an-array.html#disqus_thread">comments</a>
-                      
+<p><code>[3,2,1,5,6,4] k=2</code> -&gt; <code>5</code></p>
 
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="task-scheduler.html">
-                
-                  <h1>Task Scheduler</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<blockquote>
-<p><code>heap</code> <code>priority queue</code></p>
-</blockquote>
+<p><code>[3,2,3,1,2,4,5,5,6] k=4</code> -&gt; <code>4</code></p>
 
-<p>Given a letter (A to Z) array representing tasks. Each task could be done in one interval. For each interval, CPU could finish one task or just be idle.</p>
+<h2 id="toc_0">3-Way Partition</h2>
 
-<p>However, there is a non-negative cooling interval <strong>n</strong> that means between <strong>two same tasks</strong>, there must be at least n intervals that CPU are doing different tasks or just be idle.</p>
+<p><em>3-Way Partition</em> (see <strong><em>Dutch National Flag</em></strong> problem) is my preferred <em>partition</em> algorithm.</p>
 
-<p>You need to return the <strong>least</strong> number of intervals the CPU will take to finish all the given tasks.<br/>
+<pre><code class="language-python">  2   4   6   3   4   7   8   3   pivot=3
+ l,m                          r
+  2   4   6   3   4   7   8   3
+     l,m                      r
+  2   3   6   3   4   7   8   4
+     l,m                  r
+  2   3   6   3   4   7   8   4
+      l   m               r
+  2   3   8   3   4   7   6   4
+      l   m           r
+  2   3   7   3   4   8   6   4
+      l   m       r
+  2   3   4   3   7   8   6   4
+      l   m   r
+  2   3   3   4   7   8   6   4
+      l  m,r
+  2   3   3   4   7   8   6   4
+      l   r   m
+ l-1         r+1
+</code></pre>
 
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="task-scheduler.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2018/9/12</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Algorithm.html'>Algorithm</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-                        <a href="https://www.httpexception.com/task-scheduler.html#disqus_thread">comments</a>
-                      
+<pre><code class="language-python">def partition(nums, l, r):
+    pivot = nums[r]
+    mid = l
+    while mid &lt;= r:
+        if nums[mid] &lt; pivot:
+            nums[l], nums[mid] = nums[mid], nums[l]
+            l += 1
+            mid += 1
+        elif nums[mid] &gt; pivot:
+            nums[r], nums[mid] = nums[mid], nums[r]
+            r -= 1
+        else:
+            mid += 1
+    return l-1, r+1
+</code></pre>
 
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="evaluate-reverse-polish-notation.html">
-                
-                  <h1>Evaluate Reverse Polish Notation</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<blockquote>
-<p><code>stack</code></p>
-</blockquote>
+<h2 id="toc_1">Solution</h2>
 
-<p>Evaluate the value of an arithmetic expression in <strong><em>Reverse Polish Notation</em></strong>.</p>
+<p><strong><em>Quickselect</em></strong> is a selection algorithm to find the <em>kth smallest element</em> in an <em>unsorted</em> array.</p>
 
-<p>Valid operators are <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>. Each operand may be an integer or another expression.<br/>
+<pre><code class="language-python">def findKthLargest(nums, k):
+    def helper(nums, l, r, k): # kth smallest
+        a, b = partition(nums, l, r)
+        if a &lt; k-1 and k-1 &lt; b: # a &lt; k-1 &lt; b
+            return nums[k-1]
+        elif a &gt;= k-1:
+            return helper(nums, l, a, k)
+        else:
+            return helper(nums, b, r, k)
 
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                   <a href="evaluate-reverse-polish-notation.html">Read more</a>&nbsp;&nbsp; 
-                    <span class="date">2018/9/12</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Algorithm.html'>Algorithm</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-                        <a href="https://www.httpexception.com/evaluate-reverse-polish-notation.html#disqus_thread">comments</a>
-                      
+    # kth largest equals to `len-k+1`th smallest
+    return helper(nums, 0, len(nums)-1, len(nums)-k+1)
+</code></pre>
 
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-              
+<h2 id="toc_2">Additional Topic</h2>
+
+<h3 id="toc_3">Quick Sort</h3>
+
+<pre><code class="language-python"># best avg O(nlogn)
+def quicksort(arr, l, r): 
+    if l &gt;= r or l &lt; 0 or r &gt;= len(arr):
+        return
+    a, b = partition(arr, l, r)
+    quicksort(arr, l, a)
+    quicksort(arr, b, r)
+</code></pre>
 
 
-			<div class="row">
-			  <div class="large-6 columns">
-			  <p class="text-left" style="padding-top:25px;">
-			   
-			  </p>
-			  </div>
-			  <div class="large-6 columns">
-			<p class="text-right" style="padding-top:25px;">
-			
-			</p>
-			  </div>
-			</div>
-		</div>
-	</div><!-- large 8 -->
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="move-semantics-in-modern-cpp.html" 
+          title="Next Post: Move Semantics in Modern C++">Move Semantics in Modern C++ &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          <div id="disqus_thread"></div>
+<script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://httpexception.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+
+          
+            <div id="disqus_thread"></div>
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
 
  <div class="large-4 medium-4 columns">
   <div class="hide-for-small">
