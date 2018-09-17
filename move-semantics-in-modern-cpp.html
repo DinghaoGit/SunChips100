@@ -125,10 +125,10 @@
 
       <div class="article-content">
       <blockquote>
-<p><code>C++11</code>: <code>rvalue reference</code>, <code>std::move</code>, <code>std::forward</code></p>
+<p><code>C++11</code>: <code>rvalue</code>, <code>rvalue reference</code>, <code>std::move</code>, <code>std::forward</code></p>
 </blockquote>
 
-<p><em>Move semantics</em> allows an object, under certain conditions, to take ownership of <strong>other</strong> object&#39;s <strong>external</strong> (heap) resources. This helps turning expensive copies into cheap moves.<br/>
+<p><strong><em>Move semantics</em></strong> allows an object, under certain conditions, to take ownership of <strong>other</strong> object&#39;s <strong>external</strong> (heap) resources. This helps turning expensive copies into cheap moves.<br/>
 <span id="more"></span><!-- more --><br/>
 Move semantics will <strong>not</strong> offer any advantages if object doesn&#39;t own external resources.</p>
 
@@ -140,13 +140,19 @@ Move semantics will <strong>not</strong> offer any advantages if object doesn&#3
 
 <p>A <em>Foo</em> instance doesn&#39;t own external resources, that is, moving this means copying <em>a</em> and <em>b</em>, which means this class cannot benefit from <em>move semantics</em>.</p>
 
-<h2 id="toc_0">Rvalue Reference</h2>
+<h2 id="toc_0">Rvalue and Lvalue</h2>
 
-<p>An <strong><em>rvalue reference</em></strong> is a new kind of reference that <strong>only</strong> binds to <strong><em>rvalue</em></strong> , and the syntax is <code>X&amp;&amp;</code> (not a ref to a ref, no such thing in C++). The old reference <em>X&amp;</em> is now known as an <em>lvalue reference</em>.</p>
+<p><code>lvalue</code>: A value that resides in memory (heap or stack) and addressable. <em>lvalues</em> correspond to objects you can refer to, either by <em>name</em> or by <em>pointer</em> or <em>reference</em>.</p>
+
+<p><code>rvalue</code>: It resides only on the right side of an assignment expression such as a literal or a <strong>temporary</strong> which is intended to be non-modifiable. In <em>C++11</em>, <em>rvalues</em> indicate objects <strong>eligible</strong> for <strong>move operations</strong>, while <em>lvalues</em> generally don&#39;t.</p>
+
+<h2 id="toc_1">Rvalue Reference</h2>
+
+<p>An <strong><em>rvalue reference</em></strong> is a new kind of reference that <strong>only</strong> binds to <em>rvalue</em> , and the syntax is <code>X&amp;&amp;</code> (not a ref to a ref, no such thing in C++). The old reference <em>X&amp;</em> is now known as an <em>lvalue reference</em>.</p>
 
 <p>Moving from <strong>lvalues</strong> is potentially <strong>dangerous</strong>, but moving from <strong>rvalues</strong> is <strong>harmless</strong>. We&#39;d better avoid moving from <em>lvalues</em>, or at least make moving from <em>lvalues</em> explicit, so that we no longer move by accident.</p>
 
-<h3 id="toc_1">implicit conversions</h3>
+<h3 id="toc_2">implicit conversions</h3>
 
 <pre><code class="language-cpp">void foo(std::string&amp;&amp; r);
 foo(&quot;hello world&quot;);
@@ -154,7 +160,7 @@ foo(&quot;hello world&quot;);
 
 <p>In the above example, <em>&quot;hello world&quot;</em> is an <em>lvalue</em> of type <em>const char[12]</em>. Since there is an <em>implicit conversion</em> from <em>const char[12]</em> through <em>const char</em>* to <em>std::string</em>, a temporary <em>std::string</em> is created, and <em>r</em> is bound to that temporary.</p>
 
-<h2 id="toc_2">Move Constructor</h2>
+<h2 id="toc_3">Move Constructor</h2>
 
 <p>In C++11, the unsafe <del>auto_ptr<T></del> has been replaced by <em>unique_ptr<T></em> which takes advantage of <em>rvalue reference</em>. </p>
 
@@ -189,7 +195,7 @@ unique_ptr&lt;A&gt; aa(a); // error, a is an lvalue
 <p>The move constructor <strong>transfers ownership</strong> of a managed resource <strong>into the current</strong> object.</p>
 </blockquote>
 
-<h2 id="toc_3">Move Assignment Operator</h2>
+<h2 id="toc_4">Move Assignment Operator</h2>
 
 <p>An <em>move assignment operator</em>&#39;s job is to release its old resource and get the new resource from its argument</p>
 
@@ -204,16 +210,16 @@ unique_ptr&lt;A&gt; aa(a); // error, a is an lvalue
 };
 </code></pre>
 
-<h2 id="toc_4">Why <em>std::move</em></h2>
+<h2 id="toc_5">Why <em>std::move</em></h2>
 
-<p>Sometimes we want the compiler to treat an <em>lvalue</em> as if it were an <em>rvalue</em>, so it can invoke the <em>move constructor</em>. C++11 offers <strong><em>std::move</em></strong> , which simply <strong>casts</strong> a <em>lvalue</em> to an <em>rvalue</em>. It does not move anything by itself. Maybe it should have been named <em>std::cast_to_rvalue</em>, but we are stuck with the name by now.</p>
+<p>Sometimes we want the compiler to treat an <em>lvalue</em> as if it were an <em>rvalue</em>, so it can invoke the <em>move constructor</em>. C++11 offers <code>std::move</code>, which simply <strong>casts</strong> a <em>lvalue</em> to an <em>rvalue</em>. It does not move anything by itself. Maybe it should have been named <em>std::cast_to_rvalue</em>, but we are stuck with the name by now.</p>
 
 <pre><code class="language-cpp">unique_ptr&lt;A&gt; a(new A);
 unique_ptr&lt;A&gt; b(a);            // error
 unique_ptr&lt;A&gt; c(std::move(a)); // okay, explicitly write std::move
 </code></pre>
 
-<h2 id="toc_5">Moving Out of Functions</h2>
+<h2 id="toc_6">Moving Out of Functions</h2>
 
 <p>If a function returns by value, some object at call site is initialized with the expression after the <em>return statement</em> as an argument to the move constructor:</p>
 
@@ -233,10 +239,10 @@ unique_ptr&lt;A&gt; c(make()); // temporary is moved into c
 </code></pre>
 
 <blockquote>
-<p>C++11 has a special rule that allows returning <strong>local objects</strong> as a <strong>rvalue</strong> from functions <strong>without</strong> having to write <strong>std::move</strong>. You should <strong>never</strong> use std::move to move local objects out of functions.</p>
+<p>C++11 has a special rule that allows returning <strong>local objects</strong> as a <strong>rvalue</strong> from functions <strong>without</strong> having to write <strong>std::move</strong>.</p>
 </blockquote>
 
-<p>The <em>return type</em> is a value, <strong>not</strong> an <em>rvalue reference</em>. <em>Rvalue reference</em> is still reference. The caller would end up with a <em>dangling reference</em> if you tricked the compiler into accepting your code, like this</p>
+<p>The <em>return type</em> is a value, <strong>not</strong> an <em>reference</em>. <em>Rvalue reference</em> is still reference. The caller would end up with a <em>dangling reference</em> if you tricked the compiler into accepting your code, like this</p>
 
 <pre><code class="language-cpp">// DO NOT DO THIS!
 unique_ptr&lt;A&gt;&amp;&amp; wrong_make() {
@@ -245,44 +251,62 @@ unique_ptr&lt;A&gt;&amp;&amp; wrong_make() {
 }
 </code></pre>
 
-<blockquote>
-<p>Moving is <strong>exclusively</strong> performed by the move constructor, <strong>not</strong> by std::move, and not by merely binding an rvalue to an rvalue reference.</p>
-</blockquote>
+<h2 id="toc_7">Universal Reference</h2>
 
-<h2 id="toc_6">Forwarding References</h2>
+<p>Let me introduce <strong><em>Universal Reference</em></strong> <code>auto&amp;&amp;</code> or <code>T&amp;&amp;</code> , which can be either <em>rvalue reference</em> or <em>lvalue reference</em>.</p>
 
-<p>You might expect <em>T&amp;&amp;</em> to only bind to <em>rvalues</em>. As it turns out though, <em>T&amp;&amp;</em> also binds to <em>lvalues</em>.</p>
+<pre><code class="language-cpp">template&lt;typename T&gt;
+void foo(T&amp;&amp; arg);      // arg is universal reference
 
-<pre><code class="language-cpp">template&lt;typename T&gt; void foo(T&amp;&amp;);
-
-foo(make());            // T&amp;&amp; is unique_ptr&lt;A&gt;&amp;&amp;
+foo(make());            // arg is unique_ptr&lt;A&gt;&amp;&amp;
 
 unique_ptr&lt;A&gt; a(new A);
-foo(a);                 // T&amp;&amp; is unique_ptr&lt;A&gt;&amp;
+foo(a);                 // arg is unique_ptr&lt;A&gt;&amp;
 </code></pre>
 
-<p>If the argument is an <em>lvalue</em> of type <em>X</em>, due to a special rule, <em>T</em> is deduced to be <em>X&amp;</em>, hence <em>T&amp;&amp;</em> would mean something like <em>X&amp; &amp;&amp;</em>. But since C++ still has no notion of ref to ref, the type <em>X&amp; &amp;&amp;</em> is collapsed into <em>X&amp;</em>. This may sound confusing and useless at first, but <strong><em>reference collapsing</em></strong> rule is essential for <em>perfect forwarding</em>.</p>
+<h3 id="toc_8">Reference Collapsing</h3>
 
-<pre><code class="language-text">T&amp;   &amp;  -&gt; T&amp; 
-T&amp;   &amp;&amp; -&gt; T&amp; 
-T&amp;&amp;  &amp;  -&gt; T&amp; 
-T&amp;&amp;  &amp;&amp; -&gt; T&amp;&amp;
+<p>If the argument is an <em>lvalue</em> of type <em>X</em>, due to a special rule, <em>T</em> is deduced to be <em>X&amp;</em>, hence <em>T&amp;&amp;</em> would mean something like <em>X&amp; &amp;&amp;</em>. But since C++ still has no notion of ref to ref, the type <em>X&amp; &amp;&amp;</em> is collapsed into <em>X&amp;</em>. This is called <strong><em>Reference Collapsing</em></strong> rule, which is essential for <em>Perfect Forwarding</em>.</p>
+
+<pre><code class="language-cpp">auto&amp;&amp; x = a;      // unique_ptr&lt;A&gt;&amp; &amp;&amp; x = a;  -&gt; unique_ptr&lt;A&gt;&amp; x = a;
+auto&amp;&amp; x = make(); // unique_ptr&lt;A&gt;&amp;&amp; &amp;&amp; x = a; -&gt; unique_ptr&lt;A&gt;&amp;&amp; x = a;
 </code></pre>
 
-<h3 id="toc_7">std::forward</h3>
+<h3 id="toc_9">Forwarding References</h3>
+
+<p>For <em>param</em>, like <strong>all</strong> <em>function parameters</em>, is an <em>lvalue</em>. Remember, an <em>rvalue reference</em> is itself a <em>lvalue</em>. Every call to process inside functions will thus want to invoke the <em>lvalue overload</em>. <em>Perfect forwarding</em> means we don’t just forward objects, we also forward their their types. <code>std::forward&lt;T&gt;</code> is used in <em>templates</em> for forwarding a type to invoke the correct <em>overload</em> you want.</p>
 
 <pre><code class="language-cpp">void overloaded(const int&amp; x) { std::cout &lt;&lt; &quot;[lvalue]&quot;; }
 void overloaded(int&amp;&amp; x) { std::cout &lt;&lt; &quot;[rvalue]&quot;; }
 
-template &lt;class T&gt; void foo(T&amp;&amp; x) {
-  overloaded(x);                   // NOTE !!! always an lvalue
-  overloaded(std::forward&lt;T&gt;(x));  // rvalue if argument is rvalue
+auto&amp;&amp; ref = 8;
+// `rvalue reference` is itself `lvalue`
+overloaded(ref);             // [lvalue]
+// let COMPILER know to use rvalue
+overloaded(std::move(ref));  // [rvalue]
+
+template &lt;typename T&gt;
+void foo(T&amp;&amp; arg) {
+  // NOTE !!! arg is always an lvalue
+  overloaded(arg); 
+  // parameter is rvalue only if T is int&amp;&amp;
+  overloaded(std::forward&lt;T&gt;(arg));
 }
 
 int a;
 foo(a); // calling foo with lvalue: [lvalue][lvalue]
 foo(0); // calling foo with rvalue: [lvalue][rvalue]
 </code></pre>
+
+<h3 id="toc_10">Do Remember</h3>
+
+<blockquote>
+<p>std::move performs an <strong>unconditional cast</strong> to an rvalue. In and of itself, it doesn’t move anything.</p>
+
+<p>std::forward casts its argument to an rvalue <strong>only if</strong> that argument is <strong>bound to</strong> an rvalue.</p>
+
+<p>Both std::move and std::forward <strong>do nothing at runtime</strong>.</p>
+</blockquote>
 
 
     
