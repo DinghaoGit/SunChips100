@@ -1,0 +1,657 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[HttpException]]></title>
+  <link href="https://www.httpexception.com/atom.xml" rel="self"/>
+  <link href="https://www.httpexception.com/"/>
+  <updated>2018-10-04T23:30:27-07:00</updated>
+  <id>https://www.httpexception.com/</id>
+  <author>
+    <name><![CDATA[]]></name>
+    
+  </author>
+  <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[Private VPN on Raspberry Pi]]></title>
+    <link href="https://www.httpexception.com/private-vpn-on-raspberry-pi.html"/>
+    <updated>2018-09-28T21:06:25-07:00</updated>
+    <id>https://www.httpexception.com/private-vpn-on-raspberry-pi.html</id>
+    <content type="html"><![CDATA[
+<p>The tiny, inexpensive <em>Raspberry Pi</em> has a very low power consumption, which makes it a great always-on <a href="https://techcrunch.com/2017/01/01/wtf-is-a-vpn/">VPN (Virtual Private Network)</a> server. With a VPN, you&#39;ll get secure access to your home network when you&#39;re on the go or on public networks.<br/>
+<span id="more"></span><!-- more --></p>
+
+<h2 id="toc_0">What you will need</h2>
+
+<p>The <em>Raspberry Pi</em> ships as just the <strong>single-board</strong> minicomputer. There are a few additional components you will need before you can get started.</p>
+
+<ul>
+<li>Raspberry Pi 3 (B+ is better) <a href="http://amzn.to/2H0RwU4">Amazon link</a></li>
+<li>16 GB Micro SD Card (32GB is better)</li>
+<li>5V 2.0A Micro USB Phone Charger (5V 2.5A is better)</li>
+<li>Ethernet Cable - 3 Feet</li>
+</ul>
+
+<p><img src="media/15381939857633/rasp_1.jpg" alt="rasp_1"/></p>
+
+<h2 id="toc_1">Set Up Raspberry Pi</h2>
+
+<h5 id="toc_2">1. Download Raspbian OS Image</h5>
+
+<p>Head on over <a href="https://www.raspberrypi.org/downloads/raspbian/">HERE</a> to grab a copy of the <em>Raspbian</em> (Debian-based Unix family). The <code>RASPBIAN STRETCH LITE</code> will do.</p>
+
+<h5 id="toc_3">2. Write Image to Micro-SD Card</h5>
+
+<p>Write the image to micro-SD card. You can find detailed instructions <a href="https://www.raspberrypi.org/documentation/installation/installing-images/README.md">HERE</a>. Go to &quot;Writing an image to the SD card&quot; section.</p>
+
+<h5 id="toc_4">3. Add SSH File to the Micro-SD Card Root</h5>
+
+<p>Enable <a href="https://en.wikipedia.org/wiki/Secure_Shell">SSH</a> by placing an empty file named <code>ssh</code> (without any extension) onto the root of the micro-SD card:<br/>
+<img src="media/15381939857633/ssh_1.jpg" alt="ssh_1"/></p>
+
+<h5 id="toc_5">4. Boot your Pi</h5>
+
+<p>Hook up your prepared <em>micro-SD</em> card, <em>power</em> cable and <em>network</em> cable into the <em>Pi</em>.</p>
+
+<p><img src="media/15381939857633/rasp_2.jpg" alt="rasp_2"/></p>
+
+<p>Plug another head of network cable into your <em>Router</em>.</p>
+
+<p><img src="media/15381939857633/router_1.jpg" alt="router_1"/></p>
+
+<h5 id="toc_6">5. Find your Pi&#39;s IP Address</h5>
+
+<p>To configure your Pi, you need the IP address. You can log into your <em>Router</em> and find this in your Router&#39;s DHCP allocation table:</p>
+
+<p><img src="media/15381939857633/router_2.jpg" alt="router_2"/></p>
+
+<p><strong>Note</strong>: Please set <em>router</em> always give this <em>raspberrypi</em> a fixed <em>local IP</em> so that you can access the <em>raspberrypi</em> via the same <em>IP</em> no matter it reboots or reconnects to the <em>router</em>.</p>
+
+<h5 id="toc_7">6. SSH into your Pi</h5>
+
+<p>If you are using <em>macOS</em> or <em>Linux</em>, open your <em>Terminal</em> and use <em>SSH</em> directly to access the Pi. The default credentials are:</p>
+
+<pre><code class="language-bash">username: pi
+password: raspberry
+</code></pre>
+
+<p>Connect using your Raspberry Pi&#39;s IP address:</p>
+
+<pre><code class="language-bash">ssh pi@192.168.X.X
+</code></pre>
+
+<p>If you are using <em>Windows</em>, <code>PuTTY</code> is recommended for <em>SSH</em>. <a href="https://www.raspberrypi.org/documentation/remote-access/ssh/windows.md">Guide link</a></p>
+
+<p><strong>Tips</strong>: You can set <a href="#router-port-forwarding">Router Port Forwarding</a> to open a custom port for your <em>raspberrypi</em> to make SSH accessible from outside of your local network. You may need to modify your SSH config to make it work.</p>
+
+<h2 id="toc_8">Set Up No-IP Service</h2>
+
+<p>The free <a href="https://www.noip.com/remote-access">No-IP service</a> will make sure you can always connect to your VPN, even if your IP changes. For example, if your home network provider changes your IP, the <em>No-IP</em> Dynamic Update Client updates your hostname with the current IP. Thus, you can always get to your home Raspberry Pi via a fixed hostname.</p>
+
+<ol>
+<li><p>Free Sign Up <a href="https://www.noip.com/sign-up">HERE</a>.</p></li>
+<li><p>Login and go to <code>Dynamic DNS</code> -&gt; <code>Create Hostname</code>. Choose Record Type <code>DNS Host (A)</code>. <strong>Note</strong>: You need to click a link in a reminder email every 30 days to renew your free hostname.</p></li>
+<li><p>Go to <code>Dynamic DNS</code> -&gt; <code>Dynamic Update Client</code>, choose <code>Linux</code> on the top. Follow he instructions to install <em>DUC</em> in your Pi.</p></li>
+<li><p>Use <code>crontab</code> to make it can be auto-restarted when Pi reboots.</p>
+<pre><code class="language-bash">sudo crontab -e
+</code></pre>
+<p>Add the following line to the file and save.</p>
+<pre><code class="language-bash">@reboot sudo /usr/local/bin/noip2
+</code></pre>
+<p>You can verify cron job executing history:</p>
+<pre><code class="language-bash">grep cron /var/log/syslog
+</code></pre></li>
+</ol>
+
+<p><a id="router-port-forwarding"></a></p>
+
+<h2 id="toc_9">Router Port Forwarding</h2>
+
+<p>Port forwarding is the process of configuring a router to make a device that is connected to it accessible for other devices from <strong>outside of your local network</strong>. Port forwarding uses an IP address plus port number to route network requests to specific devices. This step you will want to do is to forward your Raspberry Pi&#39;s VPN port on your router. You can go to <a href="https://portforward.com/router.htm">Port Forwarding Guide</a> to find out how to do this for your own router.</p>
+
+<p>I recommend to keep a range of ports open for your <em>raspberrypi</em> for future uses.<br/>
+For this tutorial, you can set:</p>
+
+<p>UDP port range: <em>12569 ~ 12579</em><br/>
+TCP port range: <em>12539 ~ 12549</em></p>
+
+<h2 id="toc_10">Set Up PiVPN</h2>
+
+<p>PiVPN is super easy to install. As root run in the terminal:</p>
+
+<pre><code class="language-bash">curl -L https://install.pivpn.io | bash
+</code></pre>
+
+<ul>
+<li><p>Click <code>OK</code> and <code>YES</code> all the way.</p></li>
+<li><p><code>Protocol</code> -&gt; <code>UDP</code>.</p></li>
+<li><p><code>OpenVPN Port</code> -&gt; <code>12570</code>. I recommend not to use the default 1194. <strong>Note</strong>: the port you enter here should be enabled for forwarding in your router.</p></li>
+<li><p>For <code>Encryption strength</code>, I recommend <code>1024</code> here. It is much more safe to use 2048, but it might take too long to generate the key.<br/>
+<img src="media/15381939857633/pivpn_1.jpg" alt="pivpn_1"/></p></li>
+<li><p><code>Public IP or DNS</code> -&gt; <code>DNS Entry</code>. Then enter your <em>No-IP</em> hostname. e.g. <code>example.ddns.net</code>. Choose <code>Google</code> as your <code>DNS Provider</code>.</p></li>
+<li><p><code>Reboot</code> -&gt; <code>Yes</code>.</p></li>
+<li><p>Now you can add your PiVPN profiles.</p>
+<pre><code class="language-bash">pivpn add
+</code></pre>
+<p><img src="media/15381939857633/pivpn_2.jpg" alt="pivpn_2"/></p></li>
+<li><p>Set up a simple HTTP server for your devices to download <code>*.ovpn</code> profiles.<br/>
+<img src="media/15381939857633/pivpn_3.jpg" alt="pivpn_3"/></p></li>
+</ul>
+
+<h2 id="toc_11">VPN Connect on your Personal Device</h2>
+
+<p>You&#39;ve just set up you personal <em>VPN server</em> ! Let&#39;s make it happen on your devices!</p>
+
+<ul>
+<li><p>On your device&#39;s web browser, enter <code>your_raspberry_local_ip:8080</code> and <strong>download</strong> your <code>*.ovpn</code> profile into your device.<br/>
+<img src="media/15381939857633/pivpn_4.jpg" alt="pivpn_4"/></p></li>
+<li><p>You can search for <code>OpenVPN</code> and install an <em>OpenVPN</em> client on your device.</p></li>
+<li><p>Open <em>OpenVPN</em> client. Import your downloaded <code>profile</code>. Enter your VPN user password.</p></li>
+<li><p>Congrats !!!<br/>
+<img src="media/15381939857633/connect_1.jpg" alt="connect_1"/></p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Kth Largest Element in an Array]]></title>
+    <link href="https://www.httpexception.com/kth-largest-element-in-an-array.html"/>
+    <updated>2018-09-16T00:41:31-07:00</updated>
+    <id>https://www.httpexception.com/kth-largest-element-in-an-array.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p><code>3-way partition</code> <code>quickselect</code> <code>quicksort</code> <code>kth smallest</code></p>
+</blockquote>
+
+<p>Find the <strong>kth largest</strong> element in an <strong>unsorted</strong> array.<br/>
+<span id="more"></span><!-- more --><br/>
+<strong>Examples</strong></p>
+
+<p><code>[3,2,1,5,6,4] k=2</code> -&gt; <code>5</code></p>
+
+<p><code>[3,2,3,1,2,4,5,5,6] k=4</code> -&gt; <code>4</code></p>
+
+<h2 id="toc_0">3-Way Partition</h2>
+
+<p><em>3-Way Partition</em> (see <strong><em>Dutch National Flag</em></strong> problem) is my preferred <em>partition</em> algorithm.</p>
+
+<pre><code class="language-python">  2   4   6   3   4   7   8   3   pivot=3
+ l,m                          r
+  2   4   6   3   4   7   8   3
+     l,m                      r
+  2   3   6   3   4   7   8   4
+     l,m                  r
+  2   3   6   3   4   7   8   4
+      l   m               r
+  2   3   8   3   4   7   6   4
+      l   m           r
+  2   3   7   3   4   8   6   4
+      l   m       r
+  2   3   4   3   7   8   6   4
+      l   m   r
+  2   3   3   4   7   8   6   4
+      l  m,r
+  2   3   3   4   7   8   6   4
+      l   r   m
+ l-1         r+1
+</code></pre>
+
+<pre><code class="language-python">def partition(nums, l, r):
+    pivot = nums[r]
+    mid = l
+    while mid &lt;= r:
+        if nums[mid] &lt; pivot:
+            nums[l], nums[mid] = nums[mid], nums[l]
+            l += 1
+            mid += 1
+        elif nums[mid] &gt; pivot:
+            nums[r], nums[mid] = nums[mid], nums[r]
+            r -= 1
+        else:
+            mid += 1
+    return l-1, r+1
+</code></pre>
+
+<h2 id="toc_1">Solution</h2>
+
+<p><strong><em>Quickselect</em></strong> is a selection algorithm to find the <em>kth smallest element</em> in an <em>unsorted</em> array.</p>
+
+<pre><code class="language-python">def findKthLargest(nums, k):
+    def helper(nums, l, r, k): # kth smallest
+        a, b = partition(nums, l, r)
+        if a &lt; k-1 and k-1 &lt; b: # a &lt; k-1 &lt; b
+            return nums[k-1]
+        elif a &gt;= k-1:
+            return helper(nums, l, a, k)
+        else:
+            return helper(nums, b, r, k)
+
+    # kth largest equals to `len-k+1`th smallest
+    return helper(nums, 0, len(nums)-1, len(nums)-k+1)
+</code></pre>
+
+<h2 id="toc_2">Additional Topic</h2>
+
+<h3 id="toc_3">Quick Sort</h3>
+
+<pre><code class="language-python"># best avg O(nlogn)
+def quicksort(arr, l, r): 
+    if l &gt;= r or l &lt; 0 or r &gt;= len(arr):
+        return
+    a, b = partition(arr, l, r)
+    quicksort(arr, l, a)
+    quicksort(arr, b, r)
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Move Semantics in Modern C++]]></title>
+    <link href="https://www.httpexception.com/move-semantics-in-modern-cpp.html"/>
+    <updated>2018-09-15T15:12:17-07:00</updated>
+    <id>https://www.httpexception.com/move-semantics-in-modern-cpp.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p><code>C++11</code>: <code>rvalue</code>, <code>rvalue reference</code>, <code>std::move</code>, <code>std::forward</code></p>
+</blockquote>
+
+<p><strong><em>Move semantics</em></strong> allows an object, under certain conditions, to take ownership of <strong>other</strong> object&#39;s <strong>external</strong> (heap) resources. This helps turning expensive copies into cheap moves.<br/>
+<span id="more"></span><!-- more --><br/>
+Move semantics will <strong>not</strong> offer any advantages if object doesn&#39;t own external resources.</p>
+
+<pre><code class="language-cpp">class Foo {
+    int a;
+    char b[64];
+};
+</code></pre>
+
+<p>As above, a <em>Foo</em> instance doesn&#39;t own external resources, that is, moving this means copying <em>a</em> and array <em>b</em>, which means this class cannot benefit from <em>move semantics</em>.</p>
+
+<h3 id="toc_0">When should it be?</h3>
+
+<p>A typical use is moving resources from one object to another instead of copying.</p>
+
+<pre><code class="language-cpp">template &lt;class T&gt;
+swap(T&amp; a, T&amp; b) {
+    T tmp(a);   // make 1 copy of a
+    a = b;      // make 1 copy of b, discard 1 copy of a
+    b = tmp;    // make 1 copy of tmp, discarded 1 copy of b
+}
+
+template &lt;class T&gt;
+swap(T&amp; a, T&amp; b) {
+    T tmp(std::move(a));
+    a = std::move(b);   
+    b = std::move(tmp);
+}
+</code></pre>
+
+<p>Think of what happens when <em>T</em> is <em>vector&lt;int&gt;</em> of size <em>N</em>. In the first version you read and write <strong>3*N</strong> elements, in the second version you basically read and write just the 3 <em>pointers</em> to the vectors&#39; heap <em>buffers</em>. Of course, class T needs to know how to do the moving; you should have a <em>move assignment operator</em> and a <em>move constructor</em> for class T for this to work.</p>
+
+<h2 id="toc_1">Rvalue and Lvalue</h2>
+
+<p><code>lvalue</code>: A value that resides in memory (heap or stack) and addressable. <em>lvalues</em> correspond to objects you can refer to, either by <em>name</em> or by <em>pointer</em> or <em>reference</em>.</p>
+
+<p><code>rvalue</code>: It resides only on the right side of an assignment expression such as a literal or a <strong>temporary</strong> which is intended to be non-modifiable. In <em>C++11</em>, <em>rvalues</em> indicate objects <strong>eligible</strong> for <strong>move operations</strong>, while <em>lvalues</em> generally don&#39;t.</p>
+
+<h2 id="toc_2">Rvalue Reference</h2>
+
+<p>An <strong><em>rvalue reference</em></strong> is a new kind of reference that <strong>only</strong> binds to <em>rvalue</em> , and the syntax is <code>X&amp;&amp;</code> (not a ref to a ref, no such thing in C++). The old reference <em>X&amp;</em> is now known as an <em>lvalue reference</em>.</p>
+
+<p>Moving from <strong>lvalues</strong> is potentially <strong>dangerous</strong>, but moving from <strong>rvalues</strong> is <strong>harmless</strong>. We&#39;d better avoid moving from <em>lvalues</em>, or at least make moving from <em>lvalues</em> explicit, so that we no longer move by accident.</p>
+
+<h3 id="toc_3">implicit conversions</h3>
+
+<pre><code class="language-cpp">void foo(std::string&amp;&amp; r);
+foo(&quot;hello world&quot;);
+</code></pre>
+
+<p>In the above example, <em>&quot;hello world&quot;</em> is an <em>lvalue</em> of type <em>const char[12]</em>. Since there is an <em>implicit conversion</em> from <em>const char[12]</em> through <em>const char</em>* to <em>std::string</em>, a temporary <em>std::string</em> is created, and <em>r</em> is bound to that temporary.</p>
+
+<h2 id="toc_4">Move Constructor</h2>
+
+<p>In C++11, the unsafe <del>auto_ptr<T></del> has been replaced by <em>unique_ptr<T></em> which takes advantage of <em>rvalue reference</em>. </p>
+
+<p>Let&#39;s kick off with <em>unique_ptr</em></p>
+
+<pre><code class="language-cpp">template&lt;typename T&gt;
+class unique_ptr
+{
+    T* ptr;
+public:
+    T* operator-&gt;() const { return ptr; }
+    T&amp; operator*() const { return *ptr; }
+    explicit unique_ptr(T* p = nullptr) { ptr = p; }
+    ~unique_ptr() { delete ptr; }
+</code></pre>
+
+<p>The move constructor, note the rvalue reference</p>
+
+<pre><code class="language-cpp">    unique_ptr(unique_ptr&amp;&amp; source){
+        ptr = source.ptr;
+        source.ptr = nullptr;
+    }
+</code></pre>
+
+<p>This move constructor can only be supplied with rvalues</p>
+
+<pre><code class="language-cpp">unique_ptr&lt;A&gt; a(new A);
+unique_ptr&lt;A&gt; aa(a); // error, a is an lvalue
+</code></pre>
+
+<blockquote>
+<p>The move constructor <strong>transfers ownership</strong> of a managed resource <strong>into the current</strong> object.</p>
+</blockquote>
+
+<h2 id="toc_5">Move Assignment Operator</h2>
+
+<p>An <em>move assignment operator</em>&#39;s job is to release its old resource and get the new resource from its argument</p>
+
+<pre><code class="language-cpp">    unique_ptr&amp; operator=(unique_ptr&amp;&amp; source) {
+        if (this != &amp;source) {
+            delete ptr;         // release the old resource
+            ptr = source.ptr;   // get the new resource
+            source.ptr = nullptr;
+        }
+        return *this;
+    }
+};
+</code></pre>
+
+<h2 id="toc_6">Why <em>std::move</em></h2>
+
+<p>Sometimes we want the compiler to treat an <em>lvalue</em> as if it were an <em>rvalue</em>, so it can invoke the <em>move constructor</em>. C++11 offers <code>std::move</code>, which simply <strong>casts</strong> a <em>lvalue</em> to an <em>rvalue</em>. It does not move anything by itself. Maybe it should have been named <em>std::cast_to_rvalue</em>, but we are stuck with the name by now.</p>
+
+<pre><code class="language-cpp">unique_ptr&lt;A&gt; a(new A);
+unique_ptr&lt;A&gt; b(a);            // error
+unique_ptr&lt;A&gt; c(std::move(a)); // okay, explicitly write std::move
+</code></pre>
+
+<h2 id="toc_7">Moving Out of Functions</h2>
+
+<p>If a function returns by value, some object at call site is initialized with the expression after the <em>return statement</em> as an argument to the move constructor:</p>
+
+<pre><code class="language-cpp">unique_ptr&lt;A&gt; make() {
+    return unique_ptr&lt;A&gt;(new A); // temporary
+}
+
+unique_ptr&lt;A&gt; c(make()); // temporary is moved into c
+</code></pre>
+
+<p>Perhaps surprisingly, <em>local objects</em> can also be <strong>implicitly</strong> moved out of functions</p>
+
+<pre><code class="language-cpp">unique_ptr&lt;A&gt; make() {
+    unique_ptr&lt;A&gt; result(new A); // local
+    return result;               // no std::move
+}
+</code></pre>
+
+<blockquote>
+<p>C++11 has a special rule that allows returning <strong>local objects</strong> as a <strong>rvalue</strong> from functions <strong>without</strong> having to write <strong>std::move</strong>.</p>
+</blockquote>
+
+<p>The <em>return type</em> is a value, <strong>not</strong> an <em>reference</em>. <em>Rvalue reference</em> is still reference. The caller would end up with a <em>dangling reference</em> if you tricked the compiler into accepting your code, like this</p>
+
+<pre><code class="language-cpp">// DO NOT DO THIS!
+unique_ptr&lt;A&gt;&amp;&amp; wrong_make() {
+    unique_ptr&lt;A&gt; wrong_idea(new A);
+    return std::move(wrong_idea);
+}
+</code></pre>
+
+<h2 id="toc_8">Universal Reference</h2>
+
+<p>Let me introduce <strong><em>Universal Reference</em></strong> <code>auto&amp;&amp;</code> or <code>T&amp;&amp;</code> , which can be either <em>rvalue reference</em> or <em>lvalue reference</em>.</p>
+
+<pre><code class="language-cpp">template&lt;typename T&gt;
+void foo(T&amp;&amp; arg);      // arg is universal reference
+
+foo(make());            // arg is unique_ptr&lt;A&gt;&amp;&amp;
+
+unique_ptr&lt;A&gt; a(new A);
+foo(a);                 // arg is unique_ptr&lt;A&gt;&amp;
+</code></pre>
+
+<h3 id="toc_9">Reference Collapsing</h3>
+
+<p>If the argument is an <em>lvalue</em> of type <em>X</em>, due to a special rule, <em>T</em> is deduced to be <em>X&amp;</em>, hence <em>T&amp;&amp;</em> would mean something like <em>X&amp; &amp;&amp;</em>. But since C++ still has no notion of ref to ref, the type <em>X&amp; &amp;&amp;</em> is collapsed into <em>X&amp;</em>. This is called <strong><em>Reference Collapsing</em></strong> rule, which is essential for <em>Perfect Forwarding</em>.</p>
+
+<pre><code class="language-cpp">auto&amp;&amp; x = a;      // unique_ptr&lt;A&gt;&amp; &amp;&amp; x = a;  -&gt; unique_ptr&lt;A&gt;&amp; x = a;
+auto&amp;&amp; x = make(); // unique_ptr&lt;A&gt;&amp;&amp; &amp;&amp; x = a; -&gt; unique_ptr&lt;A&gt;&amp;&amp; x = a;
+</code></pre>
+
+<h3 id="toc_10">Forwarding References</h3>
+
+<p>For <em>param</em>, like <strong>all</strong> <em>function parameters</em>, is an <em>lvalue</em>. Remember, an <em>rvalue reference</em> is itself a <em>lvalue</em>. Every call to process inside functions will thus want to invoke the <em>lvalue overload</em>. <em>Perfect forwarding</em> means we don’t just forward objects, we also forward their their types. <code>std::forward&lt;T&gt;</code> is used in <em>templates</em> for forwarding a type to invoke the correct <em>overload</em> you want.</p>
+
+<pre><code class="language-cpp">void overloaded(const int&amp; x) { std::cout &lt;&lt; &quot;[lvalue]&quot;; }
+void overloaded(int&amp;&amp; x) { std::cout &lt;&lt; &quot;[rvalue]&quot;; }
+
+auto&amp;&amp; ref = 8;
+// `rvalue reference` is itself `lvalue`
+overloaded(ref);             // [lvalue]
+// let COMPILER know to use rvalue
+overloaded(std::move(ref));  // [rvalue]
+
+template &lt;typename T&gt;
+void foo(T&amp;&amp; arg) {
+  // NOTE !!! arg is always an lvalue
+  overloaded(arg); 
+  // parameter is rvalue only if T is int&amp;&amp;
+  overloaded(std::forward&lt;T&gt;(arg));
+}
+
+int a;
+foo(a); // calling foo with lvalue: [lvalue][lvalue]
+foo(0); // calling foo with rvalue: [lvalue][rvalue]
+</code></pre>
+
+<h3 id="toc_11">Do Remember</h3>
+
+<blockquote>
+<p>std::move performs an <strong>unconditional cast</strong> to an rvalue. In and of itself, it doesn’t move anything.</p>
+
+<p>std::forward casts its argument to an rvalue <strong>only if</strong> that argument is <strong>bound to</strong> an rvalue.</p>
+
+<p>Both std::move and std::forward <strong>do nothing at runtime</strong>.</p>
+</blockquote>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Smart Pointers in Modern C++]]></title>
+    <link href="https://www.httpexception.com/smart-pointers-in-modern-cpp.html"/>
+    <updated>2018-09-14T01:25:04-07:00</updated>
+    <id>https://www.httpexception.com/smart-pointers-in-modern-cpp.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p><code>C++11</code>: <del>auto_ptr</del>, <code>unique_ptr</code>, <code>shared_ptr</code>, <code>weak_ptr</code></p>
+</blockquote>
+
+<p>Smart pointers can do virtually everything raw pointers can, but with far fewer opportunities for error.<br/>
+<span id="more"></span><!-- more --></p>
+
+<h2 id="toc_0"><em>unique_ptr</em></h2>
+
+<p>Use <em>unique_ptr</em> when you want to have <strong><em>single ownership</em></strong> (exclusive) of resource. When that <em>unique_ptr</em> is destructed, the resource is automatically released.</p>
+
+<h3 id="toc_1">custom deleter</h3>
+
+<pre><code class="language-cpp">auto deleter = [](A* a){ ... delete a;} //lambda
+unique_ptr&lt;A, decltype(deleter)&gt; A(new A, deleter)
+</code></pre>
+
+<h3 id="toc_2">move semantics</h3>
+
+<p>Unlike <del>auto_ptr</del>, copy assignment is not allowed for <em>unique_ptr</em>. Ownership is truly unique and safe. <em>unique_ptr</em> can be moved using the new move semantics:</p>
+
+<pre><code class="language-cpp">unique_ptr&lt;A&gt; ptr1 (new A);
+unique_ptr&lt;A&gt; ptr2 = std::move(ptr1);
+</code></pre>
+
+<h2 id="toc_3"><em>shared_ptr</em></h2>
+
+<p>A <em>shared_ptr</em> is a container for a raw pointer. It is a <strong><em>reference counting ownership model</em></strong> i.e. it maintains the reference count of its contained pointer in cooperation with all copies of the <em>shared_ptr</em>. So, the counter is incremented each time a new <em>shared_ptr</em> points to the resource and decremented when the <em>shared_ptr</em> is destructed. An object will not be destroyed until all copies of <em>shared_ptr</em> have been destructed. So, we should use <em>shared_ptr</em> when we want to assign one raw pointer to multiple owners.</p>
+
+<h3 id="toc_4"><em>enable_shared_from_this</em></h3>
+
+<p>It enables you to get a valid <em>shared_ptr</em> instance to <em>this</em>. <strong>Without</strong> it, you would have <strong>no way</strong> of getting a <em>shared_ptr</em> to <em>this</em>, unless you already had one <em>shared_ptr</em> as a member.</p>
+
+<pre><code class="language-cpp">class A: public enable_shared_from_this&lt;A&gt;
+{
+public:
+    shared_ptr&lt;A&gt; getMe() { return shared_from_this(); }
+}
+</code></pre>
+
+<p>The method <em>getMe()</em> returns a valid <em>shared_ptr</em>. Note that you cannot simply do <del>shared_ptr&lt;A&gt; getMe() { return shared_ptr&lt;A&gt;(this); }</del>. Because the returned <em>shared_ptr</em> will have a different reference counting control, which will end up holding a dangling reference when the object is deleted.</p>
+
+<h2 id="toc_5"><em>weak_ptr</em></h2>
+
+<p>A <em>weak_ptr</em> is created as a copy of <em>shared_ptr</em>. It provides <strong>access</strong> to an object that is owned by one or more <em>shared_ptr</em>, but <strong>does not</strong> participate in reference counting. The existence or destruction of <em>weak_ptr</em> has no effect on the <em>shared_ptr</em> or its other copies. It is required in some cases to break <strong><em>circular references</em></strong> between <em>shared_ptr</em> instances.</p>
+
+<h3 id="toc_6">circular dependency of <em>shared_ptr</em></h3>
+
+<p>Consider a scenario where we have two objects A and B. <code>A</code> has <code>shared_ptr&lt;B&gt; b</code> and <code>B</code> has <code>shared_ptr&lt;A&gt; a</code>. Hence, <em>use_count</em> will <strong>never reach zero</strong> and they will never get deleted.</p>
+
+<h3 id="toc_7">basic uses of <em>weak_ptr</em></h3>
+
+<pre><code class="language-cpp">// created as a copy of shared_ptr
+std::weak_ptr&lt;Widget&gt; w_ptr(s_ptr);
+
+// check if w_ptr is valid
+if (!w_ptr.expired()) {
+    // do something
+}
+
+// lock() creates a new shared_ptr that shares
+// ownership of the managed object.
+// If there is no managed object,
+// the returned shared_ptr is also empty.
+// i.e. expired() ? shared_ptr&lt;T&gt;() : shared_ptr&lt;T&gt;(*this)
+if (auto s_ptr_2 = w_ptr.lock()) {
+    // do something
+} else {
+    // do something
+}
+</code></pre>
+
+<h2 id="toc_8"><em>make_unique</em> and <em>make_shared</em></h2>
+
+<h3 id="toc_9">potential memory leak</h3>
+
+<blockquote>
+<p><del>processWidget(shared_ptr&lt;Widget&gt;(new Widget), getSomething());</del></p>
+</blockquote>
+
+<p>It depends on compiler, if it firstly calls <em>new Widget</em>, then <em>getSomething()</em> and <em>getSomething()</em> throws an <strong>exception</strong>, <em>Widget</em> is leaked.</p>
+
+<blockquote>
+<p>processWidget(make_shared&lt;Widget&gt;(), getSomething());</p>
+</blockquote>
+
+<p>The correct way is as above.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Task Scheduler]]></title>
+    <link href="https://www.httpexception.com/task-scheduler.html"/>
+    <updated>2018-09-12T22:47:21-07:00</updated>
+    <id>https://www.httpexception.com/task-scheduler.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p><code>heap</code> <code>priority queue</code></p>
+</blockquote>
+
+<p>Given a letter (A to Z) array representing tasks. Each task could be done in one interval. For each interval, CPU could finish one task or just be idle.</p>
+
+<p>However, there is a non-negative cooling interval <strong>n</strong> that means between <strong>two same tasks</strong>, there must be at least n intervals that CPU are doing different tasks or just be idle.</p>
+
+<p>You need to return the <strong>least</strong> number of intervals the CPU will take to finish all the given tasks.<br/>
+<span id="more"></span><!-- more --><br/>
+<strong>Example</strong></p>
+
+<p><code>tasks = [&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;B&quot;,&quot;B&quot;,&quot;B&quot;], n = 2</code> -&gt; <code>8</code></p>
+
+<p><code>A</code>-<code>B</code>-<code>#</code>-<code>A</code>-<code>B</code>-<code>#</code>-<code>A</code>-<code>B</code></p>
+
+<h2 id="toc_0">Solution</h2>
+
+<p>Use a max-heap to place most frequent elements in the first priority.</p>
+
+<pre><code class="language-python">def leastInterval(tasks, n):
+    n += 1
+    ret = 0
+    d = collections.Counter(tasks)
+    heap = [-c for c in d.values()] # max-heap build trick
+    heapq.heapify(heap)
+    while heap:
+        temp = []
+        count = 0
+        for _ in range(n):
+            if heap:
+                c = heapq.heappop(heap)
+                count += 1
+                if c &lt; -1:
+                    temp.append(c + 1)
+        for item in temp:
+            heapq.heappush(heap, item)
+        ret += n if heap else count
+    return ret
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Evaluate Reverse Polish Notation]]></title>
+    <link href="https://www.httpexception.com/evaluate-reverse-polish-notation.html"/>
+    <updated>2018-09-12T21:18:52-07:00</updated>
+    <id>https://www.httpexception.com/evaluate-reverse-polish-notation.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p><code>stack</code></p>
+</blockquote>
+
+<p>Evaluate the value of an arithmetic expression in <strong><em>Reverse Polish Notation</em></strong>.</p>
+
+<p>Valid operators are <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>. Each operand may be an integer or another expression.<br/>
+<span id="more"></span><!-- more --><br/>
+<strong>Examples</strong></p>
+
+<pre><code class="language-python">[&quot;2&quot;, &quot;1&quot;, &quot;+&quot;, &quot;3&quot;, &quot;*&quot;] -&gt; ((2 + 1) * 3) -&gt; 9
+[&quot;4&quot;, &quot;13&quot;, &quot;5&quot;, &quot;/&quot;, &quot;+&quot;] -&gt; (4 + (13 / 5)) -&gt; 6
+
+[&quot;10&quot;, &quot;6&quot;, &quot;9&quot;, &quot;3&quot;, &quot;+&quot;, &quot;-11&quot;, &quot;*&quot;, &quot;/&quot;, &quot;*&quot;, &quot;17&quot;, &quot;+&quot;, &quot;5&quot;, &quot;+&quot;]
+-&gt; ((10 * (6 / ((9 + 3) * (-11)))) + 17) + 5 -&gt; 22
+</code></pre>
+
+<h2 id="toc_0">Solution</h2>
+
+<p>Use stack to store ints, pop and eval two ints when get an operator.</p>
+
+<p>Time O(n), Space O(n).</p>
+
+<pre><code class="language-python">def evalRPN(tokens):
+    stack = []
+    for t in tokens:
+        if t not in &#39;+-*/&#39;:
+            stack.append(int(t))
+        else:
+            r, l = stack.pop(), stack.pop()
+            if &#39;+&#39; == t: stack.append(l+r)
+            elif &#39;-&#39; == t: stack.append(l-r)
+            elif &#39;*&#39; == t: stack.append(l*r)
+            else: stack.append(int(float(l)/r))
+    return stack.pop()
+</code></pre>
+
+]]></content>
+  </entry>
+  
+</feed>

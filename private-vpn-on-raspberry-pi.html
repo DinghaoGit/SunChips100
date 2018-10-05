@@ -1,0 +1,459 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  Private VPN on Raspberry Pi - HttpException
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="HttpException" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:www.httpexception.com ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; HttpException</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+        
+        <li><a target="self" href="index.html">Home</a></li>
+        
+        <li><a target="_self" href="archives.html">Archives</a></li>
+        
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="Algorithm.html">Algorithm</a></li>
+        
+            <li><a href="C++.html">C++</a></li>
+        
+            <li><a href="Raspberry%20Pi.html">Raspberry Pi</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>Private VPN on Raspberry Pi</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2018/9/28</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='Raspberry%20Pi.html'>Raspberry Pi</a></span>
+           
+         
+          <span class="comments">
+            
+              <a href="https://www.httpexception.com/private-vpn-on-raspberry-pi.html#disqus_thread">comments</a>
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>The tiny, inexpensive <em>Raspberry Pi</em> has a very low power consumption, which makes it a great always-on <a href="https://techcrunch.com/2017/01/01/wtf-is-a-vpn/">VPN (Virtual Private Network)</a> server. With a VPN, you&#39;ll get secure access to your home network when you&#39;re on the go or on public networks.<br/>
+<span id="more"></span><!-- more --></p>
+
+<h2 id="toc_0">What you will need</h2>
+
+<p>The <em>Raspberry Pi</em> ships as just the <strong>single-board</strong> minicomputer. There are a few additional components you will need before you can get started.</p>
+
+<ul>
+<li>Raspberry Pi 3 (B+ is better) <a href="http://amzn.to/2H0RwU4">Amazon link</a></li>
+<li>16 GB Micro SD Card (32GB is better)</li>
+<li>5V 2.0A Micro USB Phone Charger (5V 2.5A is better)</li>
+<li>Ethernet Cable - 3 Feet</li>
+</ul>
+
+<p><img src="media/15381939857633/rasp_1.jpg" alt="rasp_1"/></p>
+
+<h2 id="toc_1">Set Up Raspberry Pi</h2>
+
+<h5 id="toc_2">1. Download Raspbian OS Image</h5>
+
+<p>Head on over <a href="https://www.raspberrypi.org/downloads/raspbian/">HERE</a> to grab a copy of the <em>Raspbian</em> (Debian-based Unix family). The <code>RASPBIAN STRETCH LITE</code> will do.</p>
+
+<h5 id="toc_3">2. Write Image to Micro-SD Card</h5>
+
+<p>Write the image to micro-SD card. You can find detailed instructions <a href="https://www.raspberrypi.org/documentation/installation/installing-images/README.md">HERE</a>. Go to &quot;Writing an image to the SD card&quot; section.</p>
+
+<h5 id="toc_4">3. Add SSH File to the Micro-SD Card Root</h5>
+
+<p>Enable <a href="https://en.wikipedia.org/wiki/Secure_Shell">SSH</a> by placing an empty file named <code>ssh</code> (without any extension) onto the root of the micro-SD card:<br/>
+<img src="media/15381939857633/ssh_1.jpg" alt="ssh_1"/></p>
+
+<h5 id="toc_5">4. Boot your Pi</h5>
+
+<p>Hook up your prepared <em>micro-SD</em> card, <em>power</em> cable and <em>network</em> cable into the <em>Pi</em>.</p>
+
+<p><img src="media/15381939857633/rasp_2.jpg" alt="rasp_2"/></p>
+
+<p>Plug another head of network cable into your <em>Router</em>.</p>
+
+<p><img src="media/15381939857633/router_1.jpg" alt="router_1"/></p>
+
+<h5 id="toc_6">5. Find your Pi&#39;s IP Address</h5>
+
+<p>To configure your Pi, you need the IP address. You can log into your <em>Router</em> and find this in your Router&#39;s DHCP allocation table:</p>
+
+<p><img src="media/15381939857633/router_2.jpg" alt="router_2"/></p>
+
+<p><strong>Note</strong>: Please set <em>router</em> always give this <em>raspberrypi</em> a fixed <em>local IP</em> so that you can access the <em>raspberrypi</em> via the same <em>IP</em> no matter it reboots or reconnects to the <em>router</em>.</p>
+
+<h5 id="toc_7">6. SSH into your Pi</h5>
+
+<p>If you are using <em>macOS</em> or <em>Linux</em>, open your <em>Terminal</em> and use <em>SSH</em> directly to access the Pi. The default credentials are:</p>
+
+<pre><code class="language-bash">username: pi
+password: raspberry
+</code></pre>
+
+<p>Connect using your Raspberry Pi&#39;s IP address:</p>
+
+<pre><code class="language-bash">ssh pi@192.168.X.X
+</code></pre>
+
+<p>If you are using <em>Windows</em>, <code>PuTTY</code> is recommended for <em>SSH</em>. <a href="https://www.raspberrypi.org/documentation/remote-access/ssh/windows.md">Guide link</a></p>
+
+<p><strong>Tips</strong>: You can set <a href="#router-port-forwarding">Router Port Forwarding</a> to open a custom port for your <em>raspberrypi</em> to make SSH accessible from outside of your local network. You may need to modify your SSH config to make it work.</p>
+
+<h2 id="toc_8">Set Up No-IP Service</h2>
+
+<p>The free <a href="https://www.noip.com/remote-access">No-IP service</a> will make sure you can always connect to your VPN, even if your IP changes. For example, if your home network provider changes your IP, the <em>No-IP</em> Dynamic Update Client updates your hostname with the current IP. Thus, you can always get to your home Raspberry Pi via a fixed hostname.</p>
+
+<ol>
+<li><p>Free Sign Up <a href="https://www.noip.com/sign-up">HERE</a>.</p></li>
+<li><p>Login and go to <code>Dynamic DNS</code> -&gt; <code>Create Hostname</code>. Choose Record Type <code>DNS Host (A)</code>. <strong>Note</strong>: You need to click a link in a reminder email every 30 days to renew your free hostname.</p></li>
+<li><p>Go to <code>Dynamic DNS</code> -&gt; <code>Dynamic Update Client</code>, choose <code>Linux</code> on the top. Follow he instructions to install <em>DUC</em> in your Pi.</p></li>
+<li><p>Use <code>crontab</code> to make it can be auto-restarted when Pi reboots.</p>
+<pre><code class="language-bash">sudo crontab -e
+</code></pre>
+<p>Add the following line to the file and save.</p>
+<pre><code class="language-bash">@reboot sudo /usr/local/bin/noip2
+</code></pre>
+<p>You can verify cron job executing history:</p>
+<pre><code class="language-bash">grep cron /var/log/syslog
+</code></pre></li>
+</ol>
+
+<p><a id="router-port-forwarding"></a></p>
+
+<h2 id="toc_9">Router Port Forwarding</h2>
+
+<p>Port forwarding is the process of configuring a router to make a device that is connected to it accessible for other devices from <strong>outside of your local network</strong>. Port forwarding uses an IP address plus port number to route network requests to specific devices. This step you will want to do is to forward your Raspberry Pi&#39;s VPN port on your router. You can go to <a href="https://portforward.com/router.htm">Port Forwarding Guide</a> to find out how to do this for your own router.</p>
+
+<p>I recommend to keep a range of ports open for your <em>raspberrypi</em> for future uses.<br/>
+For this tutorial, you can set:</p>
+
+<p>UDP port range: <em>12569 ~ 12579</em><br/>
+TCP port range: <em>12539 ~ 12549</em></p>
+
+<h2 id="toc_10">Set Up PiVPN</h2>
+
+<p>PiVPN is super easy to install. As root run in the terminal:</p>
+
+<pre><code class="language-bash">curl -L https://install.pivpn.io | bash
+</code></pre>
+
+<ul>
+<li><p>Click <code>OK</code> and <code>YES</code> all the way.</p></li>
+<li><p><code>Protocol</code> -&gt; <code>UDP</code>.</p></li>
+<li><p><code>OpenVPN Port</code> -&gt; <code>12570</code>. I recommend not to use the default 1194. <strong>Note</strong>: the port you enter here should be enabled for forwarding in your router.</p></li>
+<li><p>For <code>Encryption strength</code>, I recommend <code>1024</code> here. It is much more safe to use 2048, but it might take too long to generate the key.<br/>
+<img src="media/15381939857633/pivpn_1.jpg" alt="pivpn_1"/></p></li>
+<li><p><code>Public IP or DNS</code> -&gt; <code>DNS Entry</code>. Then enter your <em>No-IP</em> hostname. e.g. <code>example.ddns.net</code>. Choose <code>Google</code> as your <code>DNS Provider</code>.</p></li>
+<li><p><code>Reboot</code> -&gt; <code>Yes</code>.</p></li>
+<li><p>Now you can add your PiVPN profiles.</p>
+<pre><code class="language-bash">pivpn add
+</code></pre>
+<p><img src="media/15381939857633/pivpn_2.jpg" alt="pivpn_2"/></p></li>
+<li><p>Set up a simple HTTP server for your devices to download <code>*.ovpn</code> profiles.<br/>
+<img src="media/15381939857633/pivpn_3.jpg" alt="pivpn_3"/></p></li>
+</ul>
+
+<h2 id="toc_11">VPN Connect on your Personal Device</h2>
+
+<p>You&#39;ve just set up you personal <em>VPN server</em> ! Let&#39;s make it happen on your devices!</p>
+
+<ul>
+<li><p>On your device&#39;s web browser, enter <code>your_raspberry_local_ip:8080</code> and <strong>download</strong> your <code>*.ovpn</code> profile into your device.<br/>
+<img src="media/15381939857633/pivpn_4.jpg" alt="pivpn_4"/></p></li>
+<li><p>You can search for <code>OpenVPN</code> and install an <em>OpenVPN</em> client on your device.</p></li>
+<li><p>Open <em>OpenVPN</em> client. Import your downloaded <code>profile</code>. Enter your VPN user password.</p></li>
+<li><p>Congrats !!!<br/>
+<img src="media/15381939857633/connect_1.jpg" alt="connect_1"/></p></li>
+</ul>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="kth-largest-element-in-an-array.html" 
+          title="Next Post: Kth Largest Element in an Array">Kth Largest Element in an Array &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          <div id="disqus_thread"></div>
+<script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://httpexception.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+
+          
+            <div id="disqus_thread"></div>
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <div class="site-a-logo"><img src="asset/img/tintin02.jpg" /></div>
+            
+                <h1>HttpException</h1>
+                <div class="site-des"></div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <!-- <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a> -->
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="Algorithm.html"><strong>Algorithm</strong></a>
+        
+            <a href="C++.html"><strong>C++</strong></a>
+        
+            <a href="Raspberry%20Pi.html"><strong>Raspberry Pi</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="private-vpn-on-raspberry-pi.html">Private VPN on Raspberry Pi</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="kth-largest-element-in-an-array.html">Kth Largest Element in an Array</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="move-semantics-in-modern-cpp.html">Move Semantics in Modern C++</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="smart-pointers-in-modern-cpp.html">Smart Pointers in Modern C++</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="task-scheduler.html">Task Scheduler</a>
+			      </li>
+		     
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">&copy; 2018 HttpException.com</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'httpexception'; 
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+<script type="text/javascript">
+var disqus_shortname = 'httpexception'; 
+
+(function () {
+var s = document.createElement('script'); s.async = true;
+s.type = 'text/javascript';
+s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    
+
+
+
+  </body>
+</html>
