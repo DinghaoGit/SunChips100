@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Task Scheduler - HttpException
+  How to get 2 Passport Photos for $0.09 - HttpException
   
   </title>
   
@@ -106,19 +106,19 @@
       <div class="markdown-body article-wrap">
        <div class="article">
           
-          <h1>Task Scheduler</h1>
+          <h1>How to get 2 Passport Photos for $0.09</h1>
      
         <div class="read-more clearfix">
-          <span class="date">2018/9/12</span>
+          <span class="date">2018/11/7</span>
 
           <span>posted in&nbsp;</span> 
           
-              <span class="posted-in"><a href='Algorithm.html'>Algorithm</a></span>
+              <span class="posted-in"><a href='Life%20Tips.html'>Life Tips</a></span>
            
          
           <span class="comments">
             
-              <a href="https://www.httpexception.com/task-scheduler.html#disqus_thread">comments</a>
+              <a href="https://www.httpexception.com/get-two-passport-photos-for-less-money.html#disqus_thread">comments</a>
             
 
             
@@ -128,46 +128,28 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <blockquote>
-<p><code>heap</code> <code>priority queue</code></p>
-</blockquote>
+      <p>You can go down to your local <em>Walgreens</em> or <em>CVS</em> store and print your passport photos there. It will cost you over $10 for 2 lousy passport photos.</p>
 
-<p>Given a letter (A to Z) array representing tasks. Each task could be done in one interval. For each interval, CPU could finish one task or just be idle.</p>
+<p><strong>Here’s what to do instead</strong><br/>
+<span id="more"></span><!-- more --></p>
 
-<p>However, there is a non-negative cooling interval <strong>n</strong> that means between <strong>two same tasks</strong>, there must be at least n intervals that CPU are doing different tasks or just be idle.</p>
+<h2 id="toc_0">What you do</h2>
 
-<p>You need to return the <strong>least</strong> number of intervals the CPU will take to finish all the given tasks.<br/>
-<span id="more"></span><!-- more --><br/>
-<strong>Example</strong></p>
-
-<p><code>tasks = [&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;B&quot;,&quot;B&quot;,&quot;B&quot;], n = 2</code> -&gt; <code>8</code></p>
-
-<p><code>A</code>-<code>B</code>-<code>#</code>-<code>A</code>-<code>B</code>-<code>#</code>-<code>A</code>-<code>B</code></p>
-
-<h2 id="toc_0">Solution</h2>
-
-<p>Use a max-heap to place most frequent elements in the first priority.</p>
-
-<pre><code class="language-python">def leastInterval(tasks, n):
-    n += 1
-    ret = 0
-    d = collections.Counter(tasks)
-    heap = [-c for c in d.values()] # max-heap build trick
-    heapq.heapify(heap)
-    while heap:
-        temp = []
-        count = 0
-        for _ in range(n):
-            if heap:
-                c = heapq.heappop(heap)
-                count += 1
-                if c &lt; -1:
-                    temp.append(c + 1)
-        for item in temp:
-            heapq.heappush(heap, item)
-        ret += n if heap else count
-    return ret
-</code></pre>
+<ol>
+<li><p>Take a decent photo for you. For U.S. passports, simply follow <a href="https://travel.state.gov/content/travel/en/passports/requirements/photos.html">these guidelines</a> and you’ll be good to go.</p></li>
+<li><p><strong>PS</strong> your photo until you are happy with the result.</p></li>
+<li><p>Navigate to <a href="https://www.oddprints.com/edit">OddPrints.com</a> and upload your digital photo, select your needed passport size (<em>US</em> is in the presets) or any other custom size. Turn on option <code>Tiling</code>.<br/>
+<img src="media/15416660346773/pt_01.jpeg" alt="pt_01"/></p></li>
+<li><p>Click <code>Download</code> and save your image to a 4&quot;x6&quot; photo image. If you select US passport size, this will fit 2 images on one download.</p></li>
+<li><p>Open <strong><em>Walmart Photo</em></strong> online. Add your photo. I recommend using <strong>one-hour pick-up Matte</strong>.<br/>
+<img src="media/15416660346773/pt_02.jpeg" alt="pt_02"/></p></li>
+<li><p>Pick up your photo in <em>Walmart</em>.<br/>
+<img src="media/15416660346773/pt_03.jpeg" alt="pt_03"/></p></li>
+<li><p>Trim you photo with a knife and a ruler.<br/>
+<img src="media/15416660346773/pt_04.jpeg" alt="pt_04"/></p></li>
+<li><p>Done!<br/>
+<img src="media/15416660346773/pt_05.jpeg" alt="pt_05"/></p></li>
+</ol>
 
 
     
@@ -178,16 +160,13 @@
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
-          <a href="smart-pointers-in-modern-cpp.html" 
-          title="Previous Post: Smart Pointers in Modern C++">&laquo; Smart Pointers in Modern C++</a>
-      
         </p>
         </div>
         <div class="large-6 columns">
       <p class="text-right" style="padding:15px 0px;">
       
-          <a  href="evaluate-reverse-polish-notation.html" 
-          title="Next Post: Evaluate Reverse Polish Notation">Evaluate Reverse Polish Notation &raquo;</a>
+          <a  href="private-vpn-on-raspberry-pi.html" 
+          title="Next Post: Private VPN on Raspberry Pi">Private VPN on Raspberry Pi &raquo;</a>
       
       </p>
         </div>

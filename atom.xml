@@ -4,13 +4,45 @@
   <title><![CDATA[HttpException]]></title>
   <link href="https://www.httpexception.com/atom.xml" rel="self"/>
   <link href="https://www.httpexception.com/"/>
-  <updated>2018-10-04T23:30:27-07:00</updated>
+  <updated>2018-10-04T23:32:36-07:00</updated>
   <id>https://www.httpexception.com/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[How to get 2 Passport Photos for $0.09]]></title>
+    <link href="https://www.httpexception.com/get-two-passport-photos-for-less-money.html"/>
+    <updated>2018-11-08T00:33:54-08:00</updated>
+    <id>https://www.httpexception.com/get-two-passport-photos-for-less-money.html</id>
+    <content type="html"><![CDATA[
+<p>You can go down to your local <em>Walgreens</em> or <em>CVS</em> store and print your passport photos there. It will cost you over $10 for 2 lousy passport photos.</p>
+
+<p><strong>Here’s what to do instead</strong><br/>
+<span id="more"></span><!-- more --></p>
+
+<h2 id="toc_0">What you do</h2>
+
+<ol>
+<li><p>Take a decent photo for you. For U.S. passports, simply follow <a href="https://travel.state.gov/content/travel/en/passports/requirements/photos.html">these guidelines</a> and you’ll be good to go.</p></li>
+<li><p><strong>PS</strong> your photo until you are happy with the result.</p></li>
+<li><p>Navigate to <a href="https://www.oddprints.com/edit">OddPrints.com</a> and upload your digital photo, select your needed passport size (<em>US</em> is in the presets) or any other custom size. Turn on option <code>Tiling</code>.<br/>
+<img src="media/15416660346773/pt_01.jpeg" alt="pt_01"/></p></li>
+<li><p>Click <code>Download</code> and save your image to a 4&quot;x6&quot; photo image. If you select US passport size, this will fit 2 images on one download.</p></li>
+<li><p>Open <strong><em>Walmart Photo</em></strong> online. Add your photo. I recommend using <strong>one-hour pick-up Matte</strong>.<br/>
+<img src="media/15416660346773/pt_02.jpeg" alt="pt_02"/></p></li>
+<li><p>Pick up your photo in <em>Walmart</em>.<br/>
+<img src="media/15416660346773/pt_03.jpeg" alt="pt_03"/></p></li>
+<li><p>Trim you photo with a knife and a ruler.<br/>
+<img src="media/15416660346773/pt_04.jpeg" alt="pt_04"/></p></li>
+<li><p>Done!<br/>
+<img src="media/15416660346773/pt_05.jpeg" alt="pt_05"/></p></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Private VPN on Raspberry Pi]]></title>
@@ -91,7 +123,7 @@ password: raspberry
 <ol>
 <li><p>Free Sign Up <a href="https://www.noip.com/sign-up">HERE</a>.</p></li>
 <li><p>Login and go to <code>Dynamic DNS</code> -&gt; <code>Create Hostname</code>. Choose Record Type <code>DNS Host (A)</code>. <strong>Note</strong>: You need to click a link in a reminder email every 30 days to renew your free hostname.</p></li>
-<li><p>Go to <code>Dynamic DNS</code> -&gt; <code>Dynamic Update Client</code>, choose <code>Linux</code> on the top. Follow he instructions to install <em>DUC</em> in your Pi.</p></li>
+<li><p>Go to <code>Dynamic DNS</code> -&gt; <code>Dynamic Update Client</code>, choose <code>Linux</code> on the top. Follow the instructions to install <em>DUC</em> in your Pi.</p></li>
 <li><p>Use <code>crontab</code> to make it can be auto-restarted when Pi reboots.</p>
 <pre><code class="language-bash">sudo crontab -e
 </code></pre>
@@ -134,8 +166,10 @@ TCP port range: <em>12539 ~ 12549</em></p>
 <pre><code class="language-bash">pivpn add
 </code></pre>
 <p><img src="media/15381939857633/pivpn_2.jpg" alt="pivpn_2"/></p></li>
-<li><p>Set up a simple HTTP server for your devices to download <code>*.ovpn</code> profiles.<br/>
-<img src="media/15381939857633/pivpn_3.jpg" alt="pivpn_3"/></p></li>
+<li><p>Set up a simple HTTP server for your devices to download <code>*.ovpn</code> profiles.</p>
+<pre><code class="language-bash">python -m SimpleHTTPServer 8080
+</code></pre>
+<p><img src="media/15381939857633/pivpn_3.jpg" alt="pivpn_3"/></p></li>
 </ul>
 
 <h2 id="toc_11">VPN Connect on your Personal Device</h2>

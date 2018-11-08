@@ -82,6 +82,8 @@
             <li><a href="C++.html">C++</a></li>
         
             <li><a href="Raspberry%20Pi.html">Raspberry Pi</a></li>
+        
+            <li><a href="Life%20Tips.html">Life Tips</a></li>
          
 
       </ul>
@@ -199,7 +201,7 @@ password: raspberry
 <ol>
 <li><p>Free Sign Up <a href="https://www.noip.com/sign-up">HERE</a>.</p></li>
 <li><p>Login and go to <code>Dynamic DNS</code> -&gt; <code>Create Hostname</code>. Choose Record Type <code>DNS Host (A)</code>. <strong>Note</strong>: You need to click a link in a reminder email every 30 days to renew your free hostname.</p></li>
-<li><p>Go to <code>Dynamic DNS</code> -&gt; <code>Dynamic Update Client</code>, choose <code>Linux</code> on the top. Follow he instructions to install <em>DUC</em> in your Pi.</p></li>
+<li><p>Go to <code>Dynamic DNS</code> -&gt; <code>Dynamic Update Client</code>, choose <code>Linux</code> on the top. Follow the instructions to install <em>DUC</em> in your Pi.</p></li>
 <li><p>Use <code>crontab</code> to make it can be auto-restarted when Pi reboots.</p>
 <pre><code class="language-bash">sudo crontab -e
 </code></pre>
@@ -242,8 +244,10 @@ TCP port range: <em>12539 ~ 12549</em></p>
 <pre><code class="language-bash">pivpn add
 </code></pre>
 <p><img src="media/15381939857633/pivpn_2.jpg" alt="pivpn_2"/></p></li>
-<li><p>Set up a simple HTTP server for your devices to download <code>*.ovpn</code> profiles.<br/>
-<img src="media/15381939857633/pivpn_3.jpg" alt="pivpn_3"/></p></li>
+<li><p>Set up a simple HTTP server for your devices to download <code>*.ovpn</code> profiles.</p>
+<pre><code class="language-bash">python -m SimpleHTTPServer 8080
+</code></pre>
+<p><img src="media/15381939857633/pivpn_3.jpg" alt="pivpn_3"/></p></li>
 </ul>
 
 <h2 id="toc_11">VPN Connect on your Personal Device</h2>
@@ -267,6 +271,9 @@ TCP port range: <em>12539 ~ 12549</em></p>
       <div class="row">
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="get-two-passport-photos-for-less-money.html" 
+          title="Previous Post: How to get 2 Passport Photos for $0.09">&laquo; How to get 2 Passport Photos for $0.09</a>
       
         </p>
         </div>
@@ -345,6 +352,8 @@ s.setAttribute('data-timestamp', +new Date());
             <a href="C++.html"><strong>C++</strong></a>
         
             <a href="Raspberry%20Pi.html"><strong>Raspberry Pi</strong></a>
+        
+            <a href="Life%20Tips.html"><strong>Life Tips</strong></a>
          
         </p>
 
@@ -359,6 +368,12 @@ s.setAttribute('data-timestamp', +new Date());
                 <div class="side-content">
                 <ul class="posts-list">
 	      
+		      
+			      <li class="post">
+			        <a href="get-two-passport-photos-for-less-money.html">How to get 2 Passport Photos for $0.09</a>
+			      </li>
+		     
+		  
 		      
 			      <li class="post">
 			        <a href="private-vpn-on-raspberry-pi.html">Private VPN on Raspberry Pi</a>
@@ -384,10 +399,6 @@ s.setAttribute('data-timestamp', +new Date());
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="task-scheduler.html">Task Scheduler</a>
-			      </li>
-		     
 		  
 		      
 		   
